@@ -1,8 +1,10 @@
+import { Theme } from '@radix-ui/themes';
+import '@radix-ui/themes/styles.css';
 import { notFound } from 'next/navigation';
 
 const locales = ['en', 'pl'];
 
-export type TLocaleLayoutProps = {
+type Props = {
   children: React.ReactNode;
   params: {
     locale: string;
@@ -12,14 +14,18 @@ export type TLocaleLayoutProps = {
 export default function LocaleLayout({
   children,
   params: { locale },
-}: TLocaleLayoutProps) {
+}: Props) {
   // Validate that the incoming `locale` parameter is valid
   const isValidLocale = locales.some((cur) => cur === locale);
   if (!isValidLocale) notFound();
 
   return (
     <html lang={locale}>
-      <body>{children}</body>
+      <body>
+        <Theme>
+          {children}
+        </Theme>
+      </body>
     </html>
   );
 }
