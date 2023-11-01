@@ -1,10 +1,10 @@
 import styles from './BaseServerTemplate.module.css';
 
-export interface IBaseServerTemplate {
+export type Props = {
   sampleTextProp: string;
 }
 
-const BaseServerTemplate: React.FC<IBaseServerTemplate> = ({
+const BaseServerTemplate: React.FC<Props> = ({
   sampleTextProp,
 }) => {
   return <div className={styles.container}>{sampleTextProp}</div>;
