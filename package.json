@@ -14,7 +14,8 @@
     "prettier": "prettier --write .",
     "prepare": "husky install",
     "test": "jest",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "create-component": "node scripts/createComponent.ts"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^0.4.4-canary.81",
