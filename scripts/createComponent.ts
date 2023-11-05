@@ -55,7 +55,7 @@ export default ${componentName};
     import '@testing-library/jest-dom';
     import { render, screen } from '@testing-library/react';
     import ${componentName} from './${componentName}';
-    import { mock${componentName}Props } from './${componentName}.mocks.ts';
+    import { mock${componentName}Props } from './${componentName}.mocks';
 
     describe('Base client template component', () => {
     it('Should render properly', () => {
