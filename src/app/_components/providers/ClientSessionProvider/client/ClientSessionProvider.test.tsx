@@ -8,10 +8,11 @@ describe('Base client template component', () => {
     render(
       <ClientSessionProvider {...mockBaseTemplateProps.base}>
         <div>Child component</div>
-      </ClientSessionProvider>);
+      </ClientSessionProvider>
+    );
 
-    const div = screen.getByText("Child component");
+    const div = screen.getByText('Child component');
 
-    expect(div).toHaveTextContent("Child component");
+    expect(div).toHaveTextContent('Child component');
   });
 });

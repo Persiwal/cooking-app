@@ -4,16 +4,14 @@ import BackgroundImage from './BackgroundImage';
 import { mockBackgroundImageProps } from './BackgroundImage.mocks';
 
 describe('BackgroundImage', () => {
-    const { img } = mockBackgroundImageProps.base
+  const { img } = mockBackgroundImageProps.base;
 
-    it('should render the component with the provided image', () => {
-        const { getByAltText } = render(<BackgroundImage img={img} />);
+  it('should render the component with the provided image', () => {
+    const { getByAltText } = render(<BackgroundImage img={img} />);
 
-        const imageElement = getByAltText('');
+    const imageElement = getByAltText('');
 
-
-        expect(imageElement).toBeInTheDocument();
-        // expect(imageElement).toHaveAttribute('src', img);
-    });
+    expect(imageElement).toBeInTheDocument();
+    // expect(imageElement).toHaveAttribute('src', img);
+  });
 });
-

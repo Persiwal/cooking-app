@@ -1,13 +1,11 @@
 import Image, { StaticImageData } from 'next/image';
-import styles from './BackgroundImage.module.scss'
+import styles from './BackgroundImage.module.scss';
 
 export type Props = {
   img: StaticImageData;
-}
+};
 
-const BackgroundImage: React.FC<Props> = ({
-  img,
-}) => {
+const BackgroundImage: React.FC<Props> = ({ img }) => {
   return (
     <div className={styles.container}>
       <Image
@@ -22,7 +20,7 @@ const BackgroundImage: React.FC<Props> = ({
         }}
       />
     </div>
-  )
+  );
 };
 
 export default BackgroundImage;
