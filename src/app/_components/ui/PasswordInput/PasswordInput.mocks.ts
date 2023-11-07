@@ -1,11 +1,9 @@
+import { Props } from './PasswordInput';
 
-    import { Props } from './PasswordInput';
-    
-    const base: Props = {
-        onChange: () => {}
-    };
+const base: Props = {
+  onChange: () => {},
+};
 
-    export const mockPasswordInputProps = {
-        base,
-    };
-    
+export const mockPasswordInputProps = {
+  base,
+};
