@@ -1,9 +1,11 @@
 import ClientSessionProvider from '@/app/_components/providers/ClientSessionProvider/client/ClientSessionProvider';
+import ReactQueryProvider from '@/app/_components/providers/ReactQueryProvider/ReactQueryProvider';
+import '@/app/_styles/globals.scss';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import { getServerSession } from 'next-auth';
 import { notFound } from 'next/navigation';
-import Header from './_components/header';
+
 
 const locales = ['en', 'pl'];
 
@@ -18,7 +20,7 @@ export default async function LocaleLayout({
   children,
   params: { locale },
 }: Props) {
-  const session = await getServerSession()
+  const session = await getServerSession();
 
   // Validate that the incoming `locale` parameter is valid
   const isValidLocale = locales.some((cur) => cur === locale);
@@ -27,13 +29,14 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body>
-        <Theme>
-          <ClientSessionProvider session={session}>
-            <Header />
-            {children}
-          </ClientSessionProvider>
-        </Theme>
+        <ReactQueryProvider>
+          <Theme>
+            <ClientSessionProvider session={session}>
+              {children}
+            </ClientSessionProvider>
+          </Theme>
+        </ReactQueryProvider>
       </body>
-    </html>
+    </html >
   );
 }
