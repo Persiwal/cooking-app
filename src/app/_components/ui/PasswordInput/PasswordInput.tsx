@@ -9,9 +9,10 @@ import { useState } from 'react';
 
 export type Props = {
   onChange: () => void;
+  value: string
 };
 
-const PasswordInput: React.FC<Props> = ({ onChange }) => {
+const PasswordInput: React.FC<Props> = ({ onChange, value }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   return (
@@ -22,6 +23,7 @@ const PasswordInput: React.FC<Props> = ({ onChange }) => {
       <TextField.Input
         size="3"
         onChange={onChange}
+        value={value}
         type={isPasswordVisible ? 'text' : 'password'}
         placeholder="Type a password..."
       />
