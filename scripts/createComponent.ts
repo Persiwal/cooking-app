@@ -1,23 +1,26 @@
-//example of use 
+//example of use
 //npm run create-component ExampleComponent src/app/_components/ui
 
 const fs = require('fs');
 const path = require('path');
 
 function createComponentFiles() {
-    const componentName = process.argv[2];
-    const targetPath = process.argv[3];
-    const componentDirectory = path.join(process.cwd() + "/" + targetPath, componentName);
+  const componentName = process.argv[2];
+  const targetPath = process.argv[3];
+  const componentDirectory = path.join(
+    process.cwd() + '/' + targetPath,
+    componentName
+  );
 
-    if (!fs.existsSync(componentDirectory)) {
-        fs.mkdirSync(componentDirectory);
-    } else {
-        console.error(`Component '${componentName}' already exists.`);
-        return;
-    }
+  if (!fs.existsSync(componentDirectory)) {
+    fs.mkdirSync(componentDirectory);
+  } else {
+    console.error(`Component '${componentName}' already exists.`);
+    return;
+  }
 
-    // Generate the component file (ExampleComponent.tsx)
-    const componentContent = `
+  // Generate the component file (ExampleComponent.tsx)
+  const componentContent = `
 import styles from './${componentName}.module.css';
 
 export type Props = {
@@ -33,10 +36,13 @@ const ${componentName}: React.FC<Props> = ({
 export default ${componentName};
 `;
 
-    fs.writeFileSync(path.join(componentDirectory, `${componentName}.tsx`), componentContent);
+  fs.writeFileSync(
+    path.join(componentDirectory, `${componentName}.tsx`),
+    componentContent
+  );
 
-    // Generate the mock file (ExampleComponent.mock.ts)
-    const mockContent = `
+  // Generate the mock file (ExampleComponent.mock.ts)
+  const mockContent = `
     import { Props } from './${componentName}';
     
     const base: Props = {
@@ -48,10 +54,13 @@ export default ${componentName};
     };
     `;
 
-    fs.writeFileSync(path.join(componentDirectory, `${componentName}.mocks.ts`), mockContent);
+  fs.writeFileSync(
+    path.join(componentDirectory, `${componentName}.mocks.ts`),
+    mockContent
+  );
 
-    // Generate the test file (ExampleComponent.test.ts)
-    const testContent = `
+  // Generate the test file (ExampleComponent.test.ts)
+  const testContent = `
     import '@testing-library/jest-dom';
     import { render, screen } from '@testing-library/react';
     import ${componentName} from './${componentName}';
@@ -68,21 +77,27 @@ export default ${componentName};
     });
     `;
 
-    fs.writeFileSync(path.join(componentDirectory, `${componentName}.test.tsx`), testContent);
+  fs.writeFileSync(
+    path.join(componentDirectory, `${componentName}.test.tsx`),
+    testContent
+  );
 
-    // Generate the stylesheet file (ExampleComponent.module.scss)
-    fs.writeFileSync(path.join(componentDirectory, `${componentName}.module.scss`), '');
+  // Generate the stylesheet file (ExampleComponent.module.scss)
+  fs.writeFileSync(
+    path.join(componentDirectory, `${componentName}.module.scss`),
+    ''
+  );
 
-    console.log(`Component '${componentName}' has been created.`);
+  console.log(`Component '${componentName}' has been created.`);
 }
 
 const componentName = process.argv[2];
 const componentPath = process.argv[3];
 
 if (!componentName) {
-    console.error('Please provide a component name.');
+  console.error('Please provide a component name.');
 } else if (!componentPath) {
-    console.error("Please provide component path")
+  console.error('Please provide component path');
 } else {
-    createComponentFiles();
+  createComponentFiles();
 }
