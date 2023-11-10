@@ -15,6 +15,11 @@ export type Props = {
 const PasswordInput: React.FC<Props> = ({ onChange, value }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
+  const handleTogglePasswordVisibility = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault(); // Prevent form submission
+    setIsPasswordVisible((prev) => !prev);
+  };
+
   return (
     <TextField.Root>
       <TextField.Slot>
@@ -28,14 +33,13 @@ const PasswordInput: React.FC<Props> = ({ onChange, value }) => {
         placeholder="Type a password..."
       />
       <TextField.Slot>
-        <IconButton variant="ghost">
+        <IconButton type='button' variant="ghost" onClick={handleTogglePasswordVisibility}>
           {isPasswordVisible ? (
             <EyeOpenIcon
               data-testid="open-eye-icon"
               color="black"
               width={20}
               height={20}
-              onClick={() => setIsPasswordVisible(false)}
             />
           ) : (
             <EyeClosedIcon
@@ -43,7 +47,6 @@ const PasswordInput: React.FC<Props> = ({ onChange, value }) => {
               color="black"
               width={20}
               height={20}
-              onClick={() => setIsPasswordVisible(true)}
             />
           )}
         </IconButton>
