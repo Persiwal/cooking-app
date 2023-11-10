@@ -15,7 +15,10 @@ export async function POST(request: Request) {
     data: { name, email, hashedPassword },
   });
 
-  return NextResponse.json(user);
+  return NextResponse.json({
+    data: user,
+    message: "Successfully created account."
+  });
   } catch(error: any) {
 
     if (error.code === "P2002" && error.meta.target === "User_name_key") {
