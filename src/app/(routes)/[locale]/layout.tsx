@@ -1,4 +1,5 @@
 import ClientSessionProvider from '@/app/_components/providers/ClientSessionProvider/client/ClientSessionProvider';
+import NotificationsProvider from '@/app/_components/providers/NotificationsProvider/NotificationsProvider';
 import ReactQueryProvider from '@/app/_components/providers/ReactQueryProvider/ReactQueryProvider';
 import '@/app/_styles/globals.scss';
 import { Theme } from '@radix-ui/themes';
@@ -33,8 +34,10 @@ export default async function LocaleLayout({
           <Theme>
             <ClientSessionProvider session={session}>
               {children}
+              <NotificationsProvider />
             </ClientSessionProvider>
           </Theme>
+
         </ReactQueryProvider>
       </body>
     </html >
