@@ -1,5 +1,30 @@
 {
   "Home": {
     "title": "Witaj Świecie!"
+  },
+  "pages": {
+    "register": {
+    "signUp": "Zarejestruj się",
+    "usernameLabel": "Nazwa użytkownika",
+    "emailLabel": "Email",
+    "passwordLabel": "Hasło",
+    "confirmPasswordLabel": "Potwierdź hasło",
+    "usernamePlaceholder": "Podaj swoją nazwę użytkownika...",
+    "emailPlaceholder": "Wpisz swój adres email...",
+    "passwordPlaceholder": "Wpisz hasło...",
+    "confirmPasswordPlaceholder": "Powtórz swoje hasło...",
+    "usernameRequiredError": "Nazwa użytkownika jest wymagana",
+    "usernameMinLengthError": "Nazwa użytkownika musi zawierać co najmniej 3 znaki.",
+    "usernameMaxLengthError": "Nazwa użytkownika może zawierać maksymalnie 20 znaków.",
+    "emailRequiredError": "Email jest wymagany",
+    "emailInvalidError": "Email jest nieprawidłowy",
+    "passwordRequiredError": "Hasło jest wymagane",
+    "passwordLengthError": "Hasło musi mieć co najmniej 6 znaków",
+    "confirmPasswordRequiredError": "Potwierdzenie hasła jest wymagane",
+    "passwordMismatchError": "Pola Hasło i Potwierdź hasło nie pasują do siebie",
+    "registerButton": "Zarejestruj się",
+    "registering": "Rejestrowanie...",
+    "serverError": "Wystąpił błąd na serwerze. Spróbuj ponownie później."
+    }
   }
 }

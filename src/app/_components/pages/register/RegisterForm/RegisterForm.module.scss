@@ -1,0 +1,53 @@
+@import '../../../../_styles/mixins.scss';
+
+.container {
+  margin:auto;
+  padding: 3rem;
+  border-radius: 10px;
+  background: rgba($color: #ffffff, $alpha: 1);
+}
+
+.serverErrorContainer {
+  margin: 10px 10px;
+  text-align: center;
+  color:red;
+}
+
+.heading {
+  margin-bottom: 20px;
+}
+
+.field {
+  input {
+    @include breakpoint(small) {
+      min-width: 400px;
+    }
+  }
+}
+
+.error {
+  .label {
+    color: red;
+  }
+
+  div {
+    border-color: red;
+  }
+
+  input {
+    color: red;
+  }
+
+  .errorMsg {
+    font-size: 0.9rem;
+    color: red;
+  }
+}
+
+.registerButton {
+  margin-top: 10px;;
+
+  &:hover {
+    cursor:pointer
+  }
+}

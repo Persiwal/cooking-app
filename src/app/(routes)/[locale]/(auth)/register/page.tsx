@@ -8,9 +8,9 @@ export default function Register() {
   return (
     <main className={styles.container}>
       <BackgroundImage img={registerBgImage} />
-      <ContentContainer px={{ sm: '5' }}>
+      <ContentContainer>
         <RegisterForm />
       </ContentContainer>
-    </main>
+    </main >
   );
 }
