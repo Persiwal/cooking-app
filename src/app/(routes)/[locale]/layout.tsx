@@ -1,9 +1,13 @@
 import ClientSessionProvider from '@/app/_components/providers/ClientSessionProvider/client/ClientSessionProvider';
+import NotificationsProvider from '@/app/_components/providers/NotificationsProvider/NotificationsProvider';
+import ReactQueryProvider from '@/app/_components/providers/ReactQueryProvider/ReactQueryProvider';
+import '@/app/_styles/globals.scss';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import { getServerSession } from 'next-auth';
+import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
-import Header from './_components/header';
+
 
 const locales = ['en', 'pl'];
 
@@ -18,22 +22,33 @@ export default async function LocaleLayout({
   children,
   params: { locale },
 }: Props) {
-  const session = await getServerSession()
+  const session = await getServerSession();
 
   // Validate that the incoming `locale` parameter is valid
   const isValidLocale = locales.some((cur) => cur === locale);
   if (!isValidLocale) notFound();
 
+  let messages;
+  try {
+    messages = (await import(`../../../../messages/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+
   return (
     <html lang={locale}>
       <body>
-        <Theme>
-          <ClientSessionProvider session={session}>
-            <Header />
-            {children}
-          </ClientSessionProvider>
-        </Theme>
+        <ReactQueryProvider>
+          <Theme>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              <ClientSessionProvider session={session}>
+                {children}
+                <NotificationsProvider />
+              </ClientSessionProvider>
+            </NextIntlClientProvider>
+          </Theme>
+        </ReactQueryProvider>
       </body>
-    </html>
+    </html >
   );
 }

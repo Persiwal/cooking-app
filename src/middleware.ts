@@ -4,37 +4,38 @@ import type { NextRequest } from 'next/server';
 import { LOCALES } from './app/_types/locales';
 import { ROUTES } from './app/_types/routes';
 
-const locales = [LOCALES.ENGLISH, LOCALES.POLISH]
-const publicPages = [ROUTES.HOME_PAGE, ROUTES.REGISTER_PAGE, ROUTES.LOGIN_PAGE]
+const locales = [LOCALES.ENGLISH, LOCALES.POLISH];
+const publicPages = [ROUTES.HOME_PAGE, ROUTES.REGISTER_PAGE, ROUTES.LOGIN_PAGE];
 
-const intlMiddleware =  createMiddleware({
+const intlMiddleware = createMiddleware({
   // A list of all locales that are supported
   locales: [LOCALES.ENGLISH, LOCALES.POLISH],
   // localeDetection: false,
   // If this locale is matched, pathnames work without a prefix (e.g. `/about`)
-  defaultLocale: LOCALES.ENGLISH
+  defaultLocale: LOCALES.ENGLISH,
 });
 
 const authMiddleware = withAuth(
   function onSuccess(req) {
     return intlMiddleware(req);
   },
-  {callbacks: {
-    authorized: ({token}) => token != null
-  },
-  pages: {
-    signIn: ROUTES.LOGIN_PAGE
+  {
+    callbacks: {
+      authorized: ({ token }) => token != null,
+    },
+    pages: {
+      signIn: ROUTES.LOGIN_PAGE,
+    },
   }
-}
-)
+);
 
-export default function middleware (req: NextRequest) {
-   const publicPathnameRegex = RegExp(
+export default function middleware(req: NextRequest) {
+  const publicPathnameRegex = RegExp(
     `^(/(${locales.join('|')}))?(${publicPages.join('|')})?/?$`,
     'i'
   );
   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
- 
+
   if (isPublicPage) {
     return intlMiddleware(req);
   } else {

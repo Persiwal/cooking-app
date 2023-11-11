@@ -1,5 +1,32 @@
 {
   "Home": {
-    "title": "Hello world!"
+    "title": "Hello World!"
+  },
+  "pages": {
+    "register": {
+      "signUp": "Sign Up",
+      "usernameLabel": "Username",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "usernamePlaceholder": "Specify your username...",
+      "emailPlaceholder": "Type your email address...",
+      "passwordPlaceholder": "Type a password...",
+      "confirmPasswordPlaceholder": "Retype your password...",
+      "usernameRequiredError": "Username is required",
+      "usernameMinLengthError": "Username must be at least 3 characters.",
+      "usernameMaxLengthError": "Username can't be longer than 20 characters.",
+      "emailRequiredError": "Email is required",
+      "emailInvalidError": "Email is not valid",
+      "passwordRequiredError": "Password is required",
+      "passwordLengthError": "Password must be at least 6 characters",
+      "confirmPasswordRequiredError": "Confirm password is required",
+      "passwordMismatchError": "Password and Confirm Password fields do not match",
+      "registerButton": "Register",
+      "registering": "Registering...",
+      "serverError": "An error occurred on the server. Please try again later."
+    }
   }
 }
+
+
