@@ -2,11 +2,14 @@
 import LoadingSpinner from '@/app/_components/ui/LoadingSpinner/LoadingSpinner';
 import PasswordInput from '@/app/_components/ui/PasswordInput/PasswordInput';
 import register from '@/app/_helpers/api-helpers/auth/register';
+import { ROUTES } from '@/app/_types/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Form from '@radix-ui/react-form';
-import { EnvelopeClosedIcon, PersonIcon } from '@radix-ui/react-icons';
+import { ArrowRightIcon, EnvelopeClosedIcon, PersonIcon } from '@radix-ui/react-icons';
 import { Box, Button, Container, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -54,9 +57,7 @@ const RegisterForm = () => {
 
   const registerMutation = useMutation({
     mutationFn: (requestBody: { name: string, email: string, password: string }) => register(requestBody),
-    onSuccess: (res) => {
-      form.reset();
-    },
+    onSuccess: (res) => { },
     onError: (error: Error) => {
       console.error(error.message);
     }
@@ -65,6 +66,7 @@ const RegisterForm = () => {
   useEffect(() => {
     if (registerMutation.isSuccess) {
       toast.success(t('registrationSuccessMessage'));
+      redirect(ROUTES.LOGIN_PAGE);
     }
   }, [registerMutation.isSuccess]);
 
@@ -87,7 +89,7 @@ const RegisterForm = () => {
       <Form.Root onSubmit={form.handleSubmit(onSubmit)}>
         <Container className={styles.serverErrorContainer}>
           <Text>
-            {registerMutation.isError && t('serverError')}
+            {registerMutation.isError && registerMutation.error.message}
           </Text>
         </Container>
 
@@ -211,6 +213,18 @@ const RegisterForm = () => {
           </Form.Submit>
         </Flex>
       </Form.Root>
+
+      <Text as='p' mt="5" size="3">
+        <Flex gap="2" justify="center">
+          Already have account?
+          <Link href={ROUTES.LOGIN_PAGE}>
+            <Flex align="center" gap="1">
+              Go to Login page
+              <ArrowRightIcon />
+            </Flex>
+          </Link>
+        </Flex>
+      </Text>
     </Box>
   );
 };
