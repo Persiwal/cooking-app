@@ -28,6 +28,18 @@
     "registerSuccess": "Pomyślnie zarejestrowano się.",
     "alreadyHaveAccount": "Masz już konto?",
     "goToLoginPage": "Zaloguj się"
+    },
+       "login": {
+      "login": "Zaloguj",
+      "usernameLabel": "Nazwa użytkownika",
+      "usernamePlaceholder": "Wpisz swoją nazwę użytkownika...",
+      "usernameRequiredError": "Nazwa użytkownika jest wymagana",
+      "passwordLabel": "Hasło",
+      "passwordPlaceholder": "Wpisz swoje hasło...",
+      "passwordRequiredError": "Hasło jest wymagane",
+      "loginSuccess": "Logowanie udane",
+      "dontHaveAccount": "Nie masz konta?",
+      "registerNow": "Zarejestruj się teraz."
     }
   }
 }

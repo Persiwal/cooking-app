@@ -11,12 +11,9 @@ export const authOptions: AuthOptions = {
       name: 'Credentials',
       credentials: {
         username: {
-          label: 'Username:',
           type: 'text',
-          placeholder: 'Type your username..',
         },
         password: {
-          label: 'Password',
           type: 'password',
         },
       },
@@ -32,7 +29,7 @@ export const authOptions: AuthOptions = {
         });
 
         if (!user || !user?.hashedPassword) {
-          throw new Error('Invalid email or password');
+          throw new Error('Invalid username or password');
         }
 
         const isPasswordCorrect = await bcrypt.compare(
@@ -41,7 +38,7 @@ export const authOptions: AuthOptions = {
         );
 
         if (!isPasswordCorrect) {
-          throw new Error('Invalid email or password');
+          throw new Error('Invalid username or password');
         }
 
         return user;
