@@ -1,9 +1,7 @@
-import CredentialsSingIn from '../../../../_components/pages/login/CredentialsSignIn';
+import LoginForm from '@/app/_components/pages/login/LoginForm/LoginForm';
 
 export default function Login() {
   return (
-    <main>
-      <CredentialsSingIn />
-    </main>
+    <LoginForm />
   );
 }

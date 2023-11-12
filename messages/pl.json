@@ -24,7 +24,22 @@
     "passwordMismatchError": "Pola Hasło i Potwierdź hasło nie pasują do siebie",
     "registerButton": "Zarejestruj się",
     "registering": "Rejestrowanie...",
-    "serverError": "Wystąpił błąd na serwerze. Spróbuj ponownie później."
+    "serverError": "Wystąpił błąd na serwerze. Spróbuj ponownie później.",
+    "registerSuccess": "Pomyślnie zarejestrowano się.",
+    "alreadyHaveAccount": "Masz już konto?",
+    "goToLoginPage": "Zaloguj się"
+    },
+       "login": {
+      "login": "Zaloguj",
+      "usernameLabel": "Nazwa użytkownika",
+      "usernamePlaceholder": "Wpisz swoją nazwę użytkownika...",
+      "usernameRequiredError": "Nazwa użytkownika jest wymagana",
+      "passwordLabel": "Hasło",
+      "passwordPlaceholder": "Wpisz swoje hasło...",
+      "passwordRequiredError": "Hasło jest wymagane",
+      "loginSuccess": "Logowanie udane",
+      "dontHaveAccount": "Nie masz konta?",
+      "registerNow": "Zarejestruj się teraz."
     }
   }
 }

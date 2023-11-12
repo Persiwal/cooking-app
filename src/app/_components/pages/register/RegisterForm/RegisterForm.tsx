@@ -2,11 +2,15 @@
 import LoadingSpinner from '@/app/_components/ui/LoadingSpinner/LoadingSpinner';
 import PasswordInput from '@/app/_components/ui/PasswordInput/PasswordInput';
 import register from '@/app/_helpers/api-helpers/auth/register';
+import RegisterPageTranslations from '@/app/_types/messages/pages/register';
+import { ROUTES } from '@/app/_types/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Form from '@radix-ui/react-form';
-import { EnvelopeClosedIcon, PersonIcon } from '@radix-ui/react-icons';
+import { ArrowRightIcon, EnvelopeClosedIcon, PersonIcon } from '@radix-ui/react-icons';
 import { Box, Button, Container, Flex, Heading, Text, TextField } from '@radix-ui/themes';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -15,27 +19,27 @@ import * as z from 'zod';
 import styles from './RegisterForm.module.scss';
 
 const RegisterForm = () => {
-  const t = useTranslations("pages.register");
+  const t = useTranslations();
 
   const formSchema = z.object({
     username: z
-      .string({ required_error: t('usernameRequiredError') })
-      .min(3, { message: t('usernameMinLengthError') })
-      .max(20, { message: t('usernameMaxLengthError') }),
+      .string({ required_error: t(RegisterPageTranslations.USERNAME_REQUIRED_ERROR) })
+      .min(3, { message: t(RegisterPageTranslations.USERNAME_MIN_LENGTH_ERROR) })
+      .max(20, { message: t(RegisterPageTranslations.USERNAME_MAX_LENGTH_ERROR) }),
     email: z
-      .string({ required_error: t('emailRequiredError') })
-      .email({ message: t('emailInvalidError') }),
+      .string({ required_error: t(RegisterPageTranslations.EMAIL_REQUIRED_ERROR) })
+      .email({ message: t(RegisterPageTranslations.EMAIL_INVALID_ERROR) }),
     password: z
-      .string({ required_error: t('passwordRequiredError') })
-      .min(6, { message: t('passwordLengthError') }),
+      .string({ required_error: t(RegisterPageTranslations.PASSWORD_REQUIRED_ERROR) })
+      .min(6, { message: t(RegisterPageTranslations.PASSWORD_LENGTH_ERROR) }),
     confirmPassword: z.string({
-      required_error: t('confirmPasswordRequiredError'),
+      required_error: t(RegisterPageTranslations.PASSWORD_REQUIRED_ERROR),
     }),
   }).superRefine(({ confirmPassword, password }, ctx) => {
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: 'custom',
-        message: t('passwordMismatchError'),
+        message: t(RegisterPageTranslations.PASSWORD_MISMATCH_ERROR),
         path: ['confirmPassword'],
       });
     }
@@ -54,9 +58,7 @@ const RegisterForm = () => {
 
   const registerMutation = useMutation({
     mutationFn: (requestBody: { name: string, email: string, password: string }) => register(requestBody),
-    onSuccess: (res) => {
-      form.reset();
-    },
+    onSuccess: (res) => { },
     onError: (error: Error) => {
       console.error(error.message);
     }
@@ -64,7 +66,8 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (registerMutation.isSuccess) {
-      toast.success(t('registrationSuccessMessage'));
+      toast.success(t(RegisterPageTranslations.REGISTER_SUCCESS));
+      redirect(ROUTES.LOGIN_PAGE);
     }
   }, [registerMutation.isSuccess]);
 
@@ -81,13 +84,13 @@ const RegisterForm = () => {
       width={{ initial: '100%', xs: 'min-content' }}
     >
       <Box className={styles.heading}>
-        <Heading>{t('signUp')}</Heading>
+        <Heading>{t(RegisterPageTranslations.SIGN_UP)}</Heading>
       </Box>
 
       <Form.Root onSubmit={form.handleSubmit(onSubmit)}>
         <Container className={styles.serverErrorContainer}>
           <Text>
-            {registerMutation.isError && t('serverError')}
+            {registerMutation.isError && registerMutation.error.message}
           </Text>
         </Container>
 
@@ -101,7 +104,9 @@ const RegisterForm = () => {
                 name="username"
                 className={`${styles.field} ${fieldState.error && styles.error}`}
               >
-                <Form.Label className={styles.label}>{t('usernameLabel')}</Form.Label>
+                <Form.Label className={styles.label}>
+                  {t(RegisterPageTranslations.USERNAME_LABEL)}
+                </Form.Label>
                 <TextField.Root>
                   <TextField.Slot>
                     <PersonIcon />
@@ -111,7 +116,7 @@ const RegisterForm = () => {
                     size="3"
                     className={styles.input}
                     onChange={field.onChange}
-                    placeholder={t('usernamePlaceholder')}
+                    placeholder={t(RegisterPageTranslations.USERNAME_PLACEHOLDER)}
                   />
                 </TextField.Root>
                 {fieldState.error && (
@@ -132,7 +137,9 @@ const RegisterForm = () => {
                 name="email"
                 className={`${styles.field} ${fieldState.error && styles.error}`}
               >
-                <Form.Label className={styles.label}>{t('emailLabel')}</Form.Label>
+                <Form.Label className={styles.label}>
+                  {t(RegisterPageTranslations.EMAIL_LABEL)}
+                </Form.Label>
                 <TextField.Root>
                   <TextField.Slot>
                     <EnvelopeClosedIcon />
@@ -142,7 +149,7 @@ const RegisterForm = () => {
                     size="3"
                     className={styles.input}
                     onChange={field.onChange}
-                    placeholder={t('emailPlaceholder')}
+                    placeholder={t(RegisterPageTranslations.EMAIL_PLACEHOLDER)}
                   />
                 </TextField.Root>
                 {fieldState.error && (
@@ -163,7 +170,9 @@ const RegisterForm = () => {
                 name="password"
                 className={`${styles.field} ${fieldState.error && styles.error}`}
               >
-                <Form.Label className={styles.label}>{t('passwordLabel')}</Form.Label>
+                <Form.Label className={styles.label}>
+                  {t(RegisterPageTranslations.PASSWORD_LABEL)}
+                </Form.Label>
                 <PasswordInput onChange={field.onChange} value={field.value} />
                 {fieldState.error && (
                   <Form.Message className={styles.errorMsg}>
@@ -184,7 +193,7 @@ const RegisterForm = () => {
                 className={`${styles.field} ${fieldState.error && styles.error}`}
               >
                 <Form.Label className={styles.label}>
-                  {t('confirmPasswordLabel')}
+                  {t(RegisterPageTranslations.CONFIRM_PASSWORD_LABEL)}
                 </Form.Label>
                 <PasswordInput onChange={field.onChange} value={field.value} />
                 {fieldState.error && (
@@ -202,15 +211,29 @@ const RegisterForm = () => {
                 <>
                   <LoadingSpinner />
                   <span>
-                    {t('registering')}
+                    {t(RegisterPageTranslations.REGISTERING)}
                   </span>
                 </>
                 :
-                t('registerButton')}
+                t(RegisterPageTranslations.REGISTER_BUTTON)}
             </Button>
           </Form.Submit>
         </Flex>
       </Form.Root>
+
+      <Container mt="5">
+        <Flex gap="2" justify="center">
+          <Text>
+            {t(RegisterPageTranslations.ALREADY_HAVE_ACCOUNT)}
+          </Text>
+          <Link href={ROUTES.LOGIN_PAGE}>
+            <Flex align="center" gap="1" justify="center">
+              {t(RegisterPageTranslations.GO_TO_LOGIN_PAGE)}
+              <ArrowRightIcon />
+            </Flex>
+          </Link>
+        </Flex>
+      </Container>
     </Box>
   );
 };

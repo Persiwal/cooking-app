@@ -24,7 +24,22 @@
       "passwordMismatchError": "Password and Confirm Password fields do not match",
       "registerButton": "Register",
       "registering": "Registering...",
-      "serverError": "An error occurred on the server. Please try again later."
+      "serverError": "An error occurred on the server. Please try again later.",
+      "registerSuccess": "Registered successfully.",
+      "alreadyHaveAccount": "Already have an account?",
+      "goToLoginPage": "Go to Login Page"
+    },
+      "login": {
+    "login": "Login",
+    "usernameLabel": "Username",
+    "usernamePlaceholder": "Enter your username...",
+    "usernameRequiredError": "Username is required",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password...",
+    "passwordRequiredError": "Password is required",
+    "loginSuccess": "Login successful",
+    "dontHaveAccount": "Don't have an account?",
+    "registerNow": "Register now."
     }
   }
 }
