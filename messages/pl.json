@@ -24,7 +24,10 @@
     "passwordMismatchError": "Pola Hasło i Potwierdź hasło nie pasują do siebie",
     "registerButton": "Zarejestruj się",
     "registering": "Rejestrowanie...",
-    "serverError": "Wystąpił błąd na serwerze. Spróbuj ponownie później."
+    "serverError": "Wystąpił błąd na serwerze. Spróbuj ponownie później.",
+    "registerSuccess": "Pomyślnie zarejestrowano się.",
+    "alreadyHaveAccount": "Masz już konto?",
+    "goToLoginPage": "Zaloguj się"
     }
   }
 }
