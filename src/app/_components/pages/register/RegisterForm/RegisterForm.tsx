@@ -23,14 +23,17 @@ const RegisterForm = () => {
 
   const formSchema = z.object({
     username: z
-      .string({ required_error: t(RegisterPageTranslations.USERNAME_REQUIRED_ERROR) })
+      .string()
+      .min(1, { message: t(RegisterPageTranslations.USERNAME_REQUIRED_ERROR) })
       .min(3, { message: t(RegisterPageTranslations.USERNAME_MIN_LENGTH_ERROR) })
       .max(20, { message: t(RegisterPageTranslations.USERNAME_MAX_LENGTH_ERROR) }),
     email: z
-      .string({ required_error: t(RegisterPageTranslations.EMAIL_REQUIRED_ERROR) })
+      .string()
+      .min(1, { message: t(RegisterPageTranslations.EMAIL_REQUIRED_ERROR) })
       .email({ message: t(RegisterPageTranslations.EMAIL_INVALID_ERROR) }),
     password: z
-      .string({ required_error: t(RegisterPageTranslations.PASSWORD_REQUIRED_ERROR) })
+      .string()
+      .min(1, { message: t(RegisterPageTranslations.PASSWORD_REQUIRED_ERROR) })
       .min(6, { message: t(RegisterPageTranslations.PASSWORD_LENGTH_ERROR) }),
     confirmPassword: z.string({
       required_error: t(RegisterPageTranslations.PASSWORD_REQUIRED_ERROR),
