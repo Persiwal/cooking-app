@@ -2,6 +2,17 @@
   "Home": {
     "title": "Hello World!"
   },
+  "layout": {
+    "login": "Login",
+    "createAccount": "Create Account",
+    "header": {
+      "headerActions": {
+        "yourProfile": "Your profile",
+        "settings": "Settings",
+        "logout": "Logout"
+      }
+    }
+  },
   "pages": {
     "register": {
       "signUp": "Sign Up",
@@ -29,19 +40,17 @@
       "alreadyHaveAccount": "Already have an account?",
       "goToLoginPage": "Go to Login Page"
     },
-      "login": {
-    "login": "Login",
-    "usernameLabel": "Username",
-    "usernamePlaceholder": "Enter your username...",
-    "usernameRequiredError": "Username is required",
-    "passwordLabel": "Password",
-    "passwordPlaceholder": "Enter your password...",
-    "passwordRequiredError": "Password is required",
-    "loginSuccess": "Login successful",
-    "dontHaveAccount": "Don't have an account?",
-    "registerNow": "Register now."
+    "login": {
+      "login": "Login",
+      "usernameLabel": "Username",
+      "usernamePlaceholder": "Enter your username...",
+      "usernameRequiredError": "Username is required",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Enter your password...",
+      "passwordRequiredError": "Password is required",
+      "loginSuccess": "Login successful",
+      "dontHaveAccount": "Don't have an account?",
+      "registerNow": "Register now."
     }
   }
 }
-
-
