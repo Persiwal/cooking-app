@@ -1,7 +1,7 @@
 @import '../../../../_styles/mixins.scss';
 
 .container {
-  margin:auto;
+  margin: auto;
   padding: 3rem;
   border-radius: 10px;
   background: rgba($color: #ffffff, $alpha: 1);
@@ -10,7 +10,7 @@
 .serverErrorContainer {
   margin: 10px 10px;
   text-align: center;
-  color:red;
+  color: red;
 }
 
 .heading {
@@ -45,9 +45,9 @@
 }
 
 .registerButton {
-  margin-top: 10px;;
+  margin-top: 10px;
 
   &:hover {
-    cursor:pointer
+    cursor: pointer;
   }
 }

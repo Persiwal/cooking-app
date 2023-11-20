@@ -9,30 +9,34 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email, password } = body;
 
-  const hashedPassword = await bcrypt.hash(password, DEFAULT_PASSWORD_SALT);
+    const hashedPassword = await bcrypt.hash(password, DEFAULT_PASSWORD_SALT);
 
-  const user = await prisma.user.create({
-    data: { name, email, hashedPassword },
-  });
+    const user = await prisma.user.create({
+      data: { name, email, hashedPassword },
+    });
 
-  return NextResponse.json({
-    data: user,
-    message: "Successfully created account."
-  });
-  } catch(error: any) {
-
-    if (error.code === "P2002" && error.meta.target === "User_name_key") {
+    return NextResponse.json({
+      data: user,
+      message: 'Successfully created account.',
+    });
+  } catch (error: any) {
+    if (error.code === 'P2002' && error.meta.target === 'User_name_key') {
       console.error(error);
-      return NextResponse.json({ error: "User with that username already exists." }, { status: 400 });
+      return NextResponse.json(
+        { error: 'User with that username already exists.' },
+        { status: 400 }
+      );
     }
 
-    if (error.code === "P2002" && error.meta.target === "User_email_key") {
+    if (error.code === 'P2002' && error.meta.target === 'User_email_key') {
       console.error(error);
-      return NextResponse.json({ error: "User with that email already exists." }, { status: 400 });
+      return NextResponse.json(
+        { error: 'User with that email already exists.' },
+        { status: 400 }
+      );
     }
 
-    console.error(error)
+    console.error(error);
     throw error;
   }
-
 }

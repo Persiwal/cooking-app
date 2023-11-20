@@ -9,13 +9,15 @@ import { useState } from 'react';
 
 export type Props = {
   onChange: () => void;
-  value: string
+  value: string;
 };
 
 const PasswordInput: React.FC<Props> = ({ onChange, value }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleTogglePasswordVisibility = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTogglePasswordVisibility = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
     event.preventDefault(); // Prevent form submission
     setIsPasswordVisible((prev) => !prev);
   };
@@ -33,7 +35,11 @@ const PasswordInput: React.FC<Props> = ({ onChange, value }) => {
         placeholder="Type a password..."
       />
       <TextField.Slot>
-        <IconButton type='button' variant="ghost" onClick={handleTogglePasswordVisibility}>
+        <IconButton
+          type="button"
+          variant="ghost"
+          onClick={handleTogglePasswordVisibility}
+        >
           {isPasswordVisible ? (
             <EyeOpenIcon
               data-testid="open-eye-icon"

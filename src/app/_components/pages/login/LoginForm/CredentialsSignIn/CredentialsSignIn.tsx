@@ -17,7 +17,6 @@ import LoadingSpinner from '../../../../ui/LoadingSpinner/LoadingSpinner';
 import PasswordInput from '../../../../ui/PasswordInput/PasswordInput';
 import styles from './CredentialsSignIn.module.scss';
 
-
 const CredentialsSingIn = () => {
   const t = useTranslations();
 
@@ -31,7 +30,7 @@ const CredentialsSingIn = () => {
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
@@ -39,16 +38,25 @@ const CredentialsSingIn = () => {
     },
   });
 
-  const loginMutation = useMutation<SignInResponse, Error, { username: string, password: string }>({
-    mutationFn: (requestBody) => signIn('credentials', { redirect: false, username: requestBody.username, password: requestBody.password }),
+  const loginMutation = useMutation<
+    SignInResponse,
+    Error,
+    { username: string; password: string }
+  >({
+    mutationFn: (requestBody) =>
+      signIn('credentials', {
+        redirect: false,
+        username: requestBody.username,
+        password: requestBody.password,
+      }),
     onSuccess: (res) => {
       if (res.status === 401) {
-        throw new Error(res.error)
+        throw new Error(res.error);
       }
     },
     onError: (error: Error) => {
       console.error(error.message);
-    }
+    },
   });
 
   useEffect(() => {
@@ -70,9 +78,7 @@ const CredentialsSingIn = () => {
   return (
     <Form.Root onSubmit={form.handleSubmit(onSubmit)}>
       <Container className={styles.serverErrorContainer}>
-        <Text>
-          {loginMutation.isError && loginMutation.error.message}
-        </Text>
+        <Text>{loginMutation.isError && loginMutation.error.message}</Text>
       </Container>
 
       <Flex direction="column" gap="5">
@@ -132,16 +138,20 @@ const CredentialsSingIn = () => {
         />
 
         <Form.Submit asChild>
-          <Button size="3" className={styles.loginButton} disabled={loginMutation.isLoading} type='submit'>
-            {loginMutation.isLoading ?
+          <Button
+            size="3"
+            className={styles.loginButton}
+            disabled={loginMutation.isLoading}
+            type="submit"
+          >
+            {loginMutation.isLoading ? (
               <>
                 <LoadingSpinner />
-                <span>
-                  {t(LoginPageTranslations.LOGIN)}
-                </span>
+                <span>{t(LoginPageTranslations.LOGIN)}</span>
               </>
-              :
-              t(LoginPageTranslations.LOGIN)}
+            ) : (
+              t(LoginPageTranslations.LOGIN)
+            )}
           </Button>
         </Form.Submit>
       </Flex>

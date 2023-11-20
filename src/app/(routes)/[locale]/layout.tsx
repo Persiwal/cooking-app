@@ -8,7 +8,6 @@ import { getServerSession } from 'next-auth';
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
 
-
 const locales = ['en', 'pl'];
 
 type Props = {
@@ -49,6 +48,6 @@ export default async function LocaleLayout({
           </Theme>
         </ReactQueryProvider>
       </body>
-    </html >
+    </html>
   );
 }
