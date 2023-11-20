@@ -1,7 +1,11 @@
-import config from "../config";
+import config from '../config';
 
-const register = async (requestBody : {name: string, email: string, password: string})=> {
- const endpoint = config.apiUrl + '/register'
+const register = async (requestBody: {
+  name: string;
+  email: string;
+  password: string;
+}) => {
+  const endpoint = config.apiUrl + '/register';
 
   try {
     const response = await fetch(endpoint, {
@@ -14,7 +18,7 @@ const register = async (requestBody : {name: string, email: string, password: st
 
     if (!response.ok) {
       const errorData = await response.json();
-       throw new Error(errorData.error);
+      throw new Error(errorData.error);
     }
 
     const data = await response.json();
@@ -22,10 +26,10 @@ const register = async (requestBody : {name: string, email: string, password: st
   } catch (error: any) {
     let message = 'Unknown error';
 
-    if(error instanceof Error) message = error.message;
+    if (error instanceof Error) message = error.message;
 
     throw new Error(message);
   }
-}
+};
 
 export default register;

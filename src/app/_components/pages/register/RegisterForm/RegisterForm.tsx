@@ -6,8 +6,20 @@ import Translations from '@/app/_types/messages/pages/register';
 import { ROUTES } from '@/app/_types/routes';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Form from '@radix-ui/react-form';
-import { ArrowRightIcon, EnvelopeClosedIcon, PersonIcon } from '@radix-ui/react-icons';
-import { Box, Button, Container, Flex, Heading, Text, TextField } from '@radix-ui/themes';
+import {
+  ArrowRightIcon,
+  EnvelopeClosedIcon,
+  PersonIcon,
+} from '@radix-ui/react-icons';
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  Text,
+  TextField,
+} from '@radix-ui/themes';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -21,35 +33,37 @@ import styles from './RegisterForm.module.scss';
 const RegisterForm = () => {
   const t = useTranslations();
 
-  const formSchema = z.object({
-    username: z
-      .string()
-      .min(1, { message: t(Translations.USERNAME_REQUIRED_ERROR) })
-      .min(3, { message: t(Translations.USERNAME_MIN_LENGTH_ERROR) })
-      .max(20, { message: t(Translations.USERNAME_MAX_LENGTH_ERROR) }),
-    email: z
-      .string()
-      .min(1, { message: t(Translations.EMAIL_REQUIRED_ERROR) })
-      .email({ message: t(Translations.EMAIL_INVALID_ERROR) }),
-    password: z
-      .string()
-      .min(1, { message: t(Translations.PASSWORD_REQUIRED_ERROR) })
-      .min(6, { message: t(Translations.PASSWORD_LENGTH_ERROR) }),
-    confirmPassword: z.string({
-      required_error: t(Translations.PASSWORD_REQUIRED_ERROR),
-    }),
-  }).superRefine(({ confirmPassword, password }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: 'custom',
-        message: t(Translations.PASSWORD_MISMATCH_ERROR),
-        path: ['confirmPassword'],
-      });
-    }
-  });
+  const formSchema = z
+    .object({
+      username: z
+        .string()
+        .min(1, { message: t(Translations.USERNAME_REQUIRED_ERROR) })
+        .min(3, { message: t(Translations.USERNAME_MIN_LENGTH_ERROR) })
+        .max(20, { message: t(Translations.USERNAME_MAX_LENGTH_ERROR) }),
+      email: z
+        .string()
+        .min(1, { message: t(Translations.EMAIL_REQUIRED_ERROR) })
+        .email({ message: t(Translations.EMAIL_INVALID_ERROR) }),
+      password: z
+        .string()
+        .min(1, { message: t(Translations.PASSWORD_REQUIRED_ERROR) })
+        .min(6, { message: t(Translations.PASSWORD_LENGTH_ERROR) }),
+      confirmPassword: z.string({
+        required_error: t(Translations.PASSWORD_REQUIRED_ERROR),
+      }),
+    })
+    .superRefine(({ confirmPassword, password }, ctx) => {
+      if (confirmPassword !== password) {
+        ctx.addIssue({
+          code: 'custom',
+          message: t(Translations.PASSWORD_MISMATCH_ERROR),
+          path: ['confirmPassword'],
+        });
+      }
+    });
 
   const form = useForm<z.infer<typeof formSchema>>({
-    mode: "onChange",
+    mode: 'onChange',
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
@@ -60,11 +74,15 @@ const RegisterForm = () => {
   });
 
   const registerMutation = useMutation({
-    mutationFn: (requestBody: { name: string, email: string, password: string }) => register(requestBody),
-    onSuccess: (res) => { },
+    mutationFn: (requestBody: {
+      name: string;
+      email: string;
+      password: string;
+    }) => register(requestBody),
+    onSuccess: (res) => {},
     onError: (error: Error) => {
       console.error(error.message);
-    }
+    },
   });
 
   useEffect(() => {
@@ -105,7 +123,9 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="username"
-                className={`${styles.field} ${fieldState.error && styles.error}`}
+                className={`${styles.field} ${
+                  fieldState.error && styles.error
+                }`}
               >
                 <Form.Label className={styles.label}>
                   {t(Translations.USERNAME_LABEL)}
@@ -138,7 +158,9 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="email"
-                className={`${styles.field} ${fieldState.error && styles.error}`}
+                className={`${styles.field} ${
+                  fieldState.error && styles.error
+                }`}
               >
                 <Form.Label className={styles.label}>
                   {t(Translations.EMAIL_LABEL)}
@@ -171,7 +193,9 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="password"
-                className={`${styles.field} ${fieldState.error && styles.error}`}
+                className={`${styles.field} ${
+                  fieldState.error && styles.error
+                }`}
               >
                 <Form.Label className={styles.label}>
                   {t(Translations.PASSWORD_LABEL)}
@@ -193,7 +217,9 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="confirmPassword"
-                className={`${styles.field} ${fieldState.error && styles.error}`}
+                className={`${styles.field} ${
+                  fieldState.error && styles.error
+                }`}
               >
                 <Form.Label className={styles.label}>
                   {t(Translations.CONFIRM_PASSWORD_LABEL)}
@@ -209,16 +235,20 @@ const RegisterForm = () => {
           />
 
           <Form.Submit asChild>
-            <Button size="3" className={styles.registerButton} disabled={registerMutation.isLoading} type='submit'>
-              {registerMutation.isLoading ?
+            <Button
+              size="3"
+              className={styles.registerButton}
+              disabled={registerMutation.isLoading}
+              type="submit"
+            >
+              {registerMutation.isLoading ? (
                 <>
                   <LoadingSpinner />
-                  <span>
-                    {t(Translations.REGISTERING)}
-                  </span>
+                  <span>{t(Translations.REGISTERING)}</span>
                 </>
-                :
-                t(Translations.REGISTER_BUTTON)}
+              ) : (
+                t(Translations.REGISTER_BUTTON)
+              )}
             </Button>
           </Form.Submit>
         </Flex>
@@ -226,9 +256,7 @@ const RegisterForm = () => {
 
       <Container mt="5">
         <Flex gap="2" justify="center">
-          <Text>
-            {t(Translations.ALREADY_HAVE_ACCOUNT)}
-          </Text>
+          <Text>{t(Translations.ALREADY_HAVE_ACCOUNT)}</Text>
           <Link href={ROUTES.LOGIN_PAGE}>
             <Flex align="center" gap="1" justify="center">
               {t(Translations.GO_TO_LOGIN_PAGE)}

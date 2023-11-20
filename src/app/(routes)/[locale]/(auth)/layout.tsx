@@ -1,4 +1,4 @@
-import styles from './layout.module.scss'
+import styles from './layout.module.scss';
 import registerBgImage from '@/../public/images/register-page-bg-img.jpg';
 import BackgroundImage from '@/app/_components/ui/BackgroundImage/BackgroundImage';
 import { Container as ContentContainer } from '@radix-ui/themes';
@@ -11,9 +11,7 @@ export default function AuthLayout({ children }: Props) {
   return (
     <main className={styles.container}>
       <BackgroundImage img={registerBgImage} />
-      <ContentContainer>
-        {children}
-      </ContentContainer>
-    </main >
+      <ContentContainer>{children}</ContentContainer>
+    </main>
   );
 }
