@@ -1,5 +1,5 @@
-import Footer from '@/app/_components/layout/Footer/Footer';
-import Header from '@/app/_components/layout/Header/Header';
+import Footer from '@/app/_components/layout/footer/Footer';
+import Header from '@/app/_components/layout/header/Header';
 
 type Props = {
   children: React.ReactNode;
