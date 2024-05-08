@@ -1,4 +1,4 @@
-import AccountMenu from '@/app/_components/layout/Header/HeaderActions/AccountMenu/AccountMenu';
+import AccountMenu from '@/app/_components/layout/header/header-actions/account-menu/AccountMenu';
 import Translations from '@/app/_types/messages/layout/header/header';
 import { ROUTES } from '@/app/_types/routes';
 import { Button } from '@radix-ui/themes';
@@ -8,23 +8,24 @@ import Link from 'next/link';
 import styles from './HeaderActions.module.scss';
 
 type Props = {
-  type: 'unauthenticated' | 'authenticated';
-  session: Session;
+  session: Session
+  isMobile?: boolean
 };
 
-const HeaderActions: React.FC<Props> = ({ type, session }) => {
+const HeaderActions: React.FC<Props> = ({ isMobile, session }) => {
   const t = useTranslations();
+  const isAuthenticated = !!session?.user;
 
-  if (type === 'unauthenticated') {
+  if (!isAuthenticated) {
     return (
-      <div className={styles.container}>
+      <div className={`${styles.container} ${isMobile && styles.mobile}`}>
         <Link href={ROUTES.LOGIN_PAGE}>
-          <Button variant="soft" color="indigo" size="3">
+          <Button variant="soft" color="indigo" size="3" className={styles.actionButton}>
             {t(Translations.LOGIN)}
           </Button>
         </Link>
         <Link href={ROUTES.REGISTER_PAGE}>
-          <Button variant="soft" color="green" size="3">
+          <Button variant="soft" color="green" size="3" className={styles.actionButton}>
             {t(Translations.CREATE_ACCOUNT)}
           </Button>
         </Link>
@@ -32,8 +33,8 @@ const HeaderActions: React.FC<Props> = ({ type, session }) => {
     );
   }
 
-  if (type === 'authenticated') {
-    return <AccountMenu />;
+  if (isAuthenticated) {
+    return <AccountMenu session={session} />;
   }
 };
 

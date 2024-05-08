@@ -1,3 +1,19 @@
-.container {
+@import '../../../_styles/mixins.scss';
+
+.header {
   background-color: #ededf4;
+
+  .mobile {
+    @include breakpoint(medium) {
+      display: none;
+    }
+  }
+
+  .desktop {
+    display: none;
+
+    @include breakpoint(medium) {
+      display: flex;
+    }
+  }
 }

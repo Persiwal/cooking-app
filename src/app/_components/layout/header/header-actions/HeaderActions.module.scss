@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  gap: 1rem;
+
+  &.mobile {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .actionButton {
+      padding: 1rem 1rem;
+      width:300px;
+    }
+  }
+
+  .actionButton {
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+  }
+}

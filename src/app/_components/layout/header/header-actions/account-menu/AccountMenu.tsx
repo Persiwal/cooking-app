@@ -8,15 +8,19 @@ import {
   PersonIcon as UserProfileIcon,
 } from '@radix-ui/react-icons';
 import { Button, Flex, Text } from '@radix-ui/themes';
-import { signOut, useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
+import { signOut } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import Avatar from '../../../../ui/Avatar/Avatar';
 import styles from './AccountMenu.module.scss';
 
-const AccountMenu = () => {
+type Props = {
+  session: Session
+}
+
+const AccountMenu: React.FC<Props> = ({ session }) => {
   const t = useTranslations();
-  const session = useSession();
-  const { user } = session.data;
+  const { user } = session;
   const usernameFirstLetter = user.name.charAt(0).toUpperCase();
 
   return (

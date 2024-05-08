@@ -1,6 +1,6 @@
-import ClientSessionProvider from '@/app/_components/providers/ClientSessionProvider/client/ClientSessionProvider';
-import NotificationsProvider from '@/app/_components/providers/NotificationsProvider/NotificationsProvider';
-import ReactQueryProvider from '@/app/_components/providers/ReactQueryProvider/ReactQueryProvider';
+import ClientSessionProvider from '@/app/_components/providers/client-session-provider/ClientSessionProvider';
+import NotificationsProvider from '@/app/_components/providers/notifications-provider/NotificationsProvider';
+import ReactQueryProvider from '@/app/_components/providers/react-query-provider/ReactQueryProvider';
 import '@/app/_styles/globals.scss';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';

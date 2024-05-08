@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const NotificationsProvider = () => {
   return (
     <ToastContainer
-      position="top-center"
+      position="bottom-left"
       autoClose={5000}
       hideProgressBar={false}
       newestOnTop={false}
