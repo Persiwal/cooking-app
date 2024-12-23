@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const withNextIntl = require('next-intl/plugin')(
   // This is the default (also the `src` folder is supported out of the box)
@@ -5,5 +7,8 @@ const withNextIntl = require('next-intl/plugin')(
 );
 
 module.exports = withNextIntl({
-  // Other Next.js configuration ...
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+    prependData: `@import 'index.scss';`,
+  },
 });
