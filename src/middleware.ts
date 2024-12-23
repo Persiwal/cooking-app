@@ -1,8 +1,8 @@
 import { withAuth } from 'next-auth/middleware';
 import createMiddleware from 'next-intl/middleware';
 import type { NextRequest } from 'next/server';
-import { LOCALES } from './app/_types/locales';
-import { ROUTES } from './app/_types/routes';
+import { LOCALES } from './types/locales';
+import { ROUTES } from './types/routes';
 
 const locales = [LOCALES.ENGLISH, LOCALES.POLISH];
 const publicPages = [ROUTES.HOME_PAGE, ROUTES.REGISTER_PAGE, ROUTES.LOGIN_PAGE];

@@ -1,7 +1,7 @@
-import styles from './layout.module.scss';
 import registerBgImage from '@/../public/images/register-page-bg-img.jpg';
-import BackgroundImage from '@/app/_components/ui/BackgroundImage/BackgroundImage';
+import BackgroundImage from '@/components/ui/BackgroundImage/BackgroundImage';
 import { Container as ContentContainer } from '@radix-ui/themes';
+import styles from './layout.module.scss';
 
 type Props = {
   children: React.ReactNode;

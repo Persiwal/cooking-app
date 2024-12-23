@@ -1,7 +1,7 @@
-import ClientSessionProvider from '@/app/_components/providers/client-session-provider/ClientSessionProvider';
-import NotificationsProvider from '@/app/_components/providers/notifications-provider/NotificationsProvider';
-import ReactQueryProvider from '@/app/_components/providers/react-query-provider/ReactQueryProvider';
-import '@/app/_styles/globals.scss';
+import ClientSessionProvider from '@/components/providers/client-session-provider/ClientSessionProvider';
+import NotificationsProvider from '@/components/providers/notifications-provider/NotificationsProvider';
+import ReactQueryProvider from '@/components/providers/react-query-provider/ReactQueryProvider';
+import '@/styles/globals.scss';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import { getServerSession } from 'next-auth';
