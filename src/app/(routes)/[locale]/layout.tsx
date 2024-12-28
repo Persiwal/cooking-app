@@ -1,38 +1,43 @@
 import ClientSessionProvider from '@/components/providers/client-session-provider/ClientSessionProvider';
 import NotificationsProvider from '@/components/providers/notifications-provider/NotificationsProvider';
 import ReactQueryProvider from '@/components/providers/react-query-provider/ReactQueryProvider';
+import { routing } from '@/libs/i18n/routing';
 import '@/styles/globals.scss';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import { getServerSession } from 'next-auth';
 import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-
-const locales = ['en', 'pl'];
 
 type Props = {
   children: React.ReactNode;
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 };
 
-export default async function LocaleLayout({
-  children,
-  params: { locale },
-}: Props) {
+export default async function LocaleLayout(props: Props) {
+  const params = await props.params;
+
+  const {
+    locale
+  } = params;
+
+  const {
+    children
+  } = props;
+
   const session = await getServerSession();
 
-  // Validate that the incoming `locale` parameter is valid
-  const isValidLocale = locales.some((cur) => cur === locale);
-  if (!isValidLocale) notFound();
-
-  let messages;
-  try {
-    messages = (await import(`../../../../messages/${locale}.json`)).default;
-  } catch (error) {
+  // Ensure that the incoming `locale` is valid
+  if (!routing.locales.includes(locale as any)) {
     notFound();
   }
+
+  // Providing all messages to the client
+  // side is the easiest way to get started
+  const messages = await getMessages();
 
   return (
     <html lang={locale}>

@@ -1,6 +1,6 @@
 import prisma from '@/libs/prismadb';
 import bcrypt from 'bcrypt';
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 const DEFAULT_PASSWORD_SALT = 10;
 
