@@ -1,42 +1,94 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
-  User              User    @relation(fields: [userId], references: [id])
-}
-
-model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  name           String    @unique
-  email          String    @unique
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  hashedPassword String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  role           Role      @default(USER)
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+model Account {
+  id                Int     @id @default(autoincrement()) @map("_id")
+  userId            Int     @map("user_id")
+  user              User    @relation(fields: [userId], references: [id])
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refreshToken      String?
+  accessToken       String?
+  expiresAt         Int?    @map("expires_at")
+  tokenType         String? @map("token_type")
+  scope             String?
+  idToken           String? @map("id_token")
+  sessionState      String? @map("session_state")
+}
+
+model User {
+  id             Int       @id @default(autoincrement()) @map("_id")
+  name           String    @unique
+  email          String    @unique
+  emailVerified  DateTime? @map("email_verified")
+  image          String?
+  accounts       Account[]
+  hashedPassword String?   @map("hashed_password")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  role           Role      @default(USER)
+  recipe         Recipe[]
+}
+
+model Recipe {
+  id               Int                @id @default(autoincrement())
+  title            String
+  description      String?
+  userId           Int
+  user             User               @relation(fields: [userId], references: [id])
+  cuisine          String?            @default("Unknown")
+  difficulty       Difficulty         @default(EASY)
+  prepareTime      Int                @default(3600) @map("prepare_time") // in seconds
+  numberOfPortions Int                @default(1) @map("number_of_portions")
+  ingredients      RecipeIngredient[]
+  steps            RecipeStep[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model RecipeStep {
+  id        Int      @id @default(autoincrement())
+  recipeId  Int
+  recipe    Recipe   @relation(fields: [recipeId], references: [id])
+  order     Int
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([recipeId, order])
+}
+
+model Ingredient {
+  id      Int                @id @default(autoincrement())
+  name    String             @unique
+  recipes RecipeIngredient[]
+}
+
+model RecipeIngredient {
+  id           Int        @id @default(autoincrement())
+  recipeId     Int
+  ingredientId Int
+  quantity     Float
+  unit         String
+  recipe       Recipe     @relation(fields: [recipeId], references: [id])
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
 }
