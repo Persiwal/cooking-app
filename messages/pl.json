@@ -51,6 +51,13 @@
       "loginSuccess": "Logowanie udane",
       "dontHaveAccount": "Nie masz konta?",
       "registerNow": "Zarejestruj się teraz."
+    },
+    "home": {
+      "results": {
+        "loading": "Ładowanie...",
+        "error": "Błąd ładowania przepisów",
+        "noRecipes": "Nie znaleziono przepisów"
+      }
     }
   }
 }

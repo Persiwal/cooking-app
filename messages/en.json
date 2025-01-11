@@ -1,7 +1,4 @@
 {
-  "Home": {
-    "title": "Hello World!"
-  },
   "layout": {
     "login": "Login",
     "createAccount": "Create Account",
@@ -51,6 +48,13 @@
       "loginSuccess": "Login successful",
       "dontHaveAccount": "Don't have an account?",
       "registerNow": "Register now."
+    },
+    "home": {
+      "results": {
+        "loading": "Loading...",
+        "error": "Error loading recipes",
+        "noRecipes": "No recipes found"
+      }
     }
   }
 }
