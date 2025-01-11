@@ -1,8 +1,11 @@
-import { useTranslations } from 'next-intl';
+import Results from '@/components/pages/home/Results';
+import { Container } from '@radix-ui/themes';
 
 export default function Home() {
-  const t = useTranslations('Home');
-  console.log(t);
 
-  return <>{t('title')}</>;
+  return (
+    <Container>
+      <Results />
+    </Container>
+  )
 }

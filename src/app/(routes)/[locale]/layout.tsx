@@ -19,14 +19,8 @@ type Props = {
 
 export default async function LocaleLayout(props: Props) {
   const params = await props.params;
-
-  const {
-    locale
-  } = params;
-
-  const {
-    children
-  } = props;
+  const { locale } = params;
+  const { children } = props;
 
   const session = await getServerSession();
 

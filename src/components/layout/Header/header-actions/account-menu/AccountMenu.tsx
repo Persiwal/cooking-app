@@ -1,6 +1,6 @@
 'use client';
 
-import Translations from '@/types/messages/layout/header-actions/account-menu';
+import useTranslationsObject from '@/hooks/useTranslationsObject';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   ExitIcon as LogoutIcon,
@@ -10,7 +10,6 @@ import {
 import { Button, Flex, Text } from '@radix-ui/themes';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
-import { useTranslations } from 'next-intl';
 import Avatar from '../../../../ui/Avatar/Avatar';
 import styles from './AccountMenu.module.scss';
 
@@ -19,7 +18,7 @@ type Props = {
 }
 
 const AccountMenu: React.FC<Props> = ({ session }) => {
-  const t = useTranslations();
+  const t = useTranslationsObject('layout.header.headerActions');
   const { user } = session;
   const usernameFirstLetter = user.name.charAt(0).toUpperCase();
 
@@ -63,12 +62,12 @@ const AccountMenu: React.FC<Props> = ({ session }) => {
 
           <DropdownMenu.Item className={styles.dropdownMenuItem} disabled>
             <UserProfileIcon />
-            {t(Translations.YOUR_PROFILE)}
+            {t.YOUR_PROFILE}
           </DropdownMenu.Item>
 
           <DropdownMenu.Item className={styles.dropdownMenuItem} disabled>
             <SettingsIcon />
-            {t(Translations.SETTINGS)}
+            {t.SETTINGS}
           </DropdownMenu.Item>
 
           <DropdownMenu.Separator className={styles.dropdownMenuSeparator} />
@@ -78,7 +77,7 @@ const AccountMenu: React.FC<Props> = ({ session }) => {
             onClick={() => signOut()}
           >
             <LogoutIcon />
-            {t(Translations.LOGOUT)}
+            {t.LOGOUT}
           </DropdownMenu.Item>
 
           <DropdownMenu.Arrow className={styles.dropdownMenuArrow} />
