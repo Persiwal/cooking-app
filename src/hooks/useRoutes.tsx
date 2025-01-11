@@ -8,7 +8,7 @@ const useRoutes = () => {
     const session = useSession();
     const isAuthenticated = Boolean(session && session.data)
     const pathname = usePathname();
-    const pathnameWithoutLocale = pathname.replace(/\/pl$/, '/');
+    const pathnameWithoutLocale = (pathname ?? '').replace(/\/pl$/, '/');
 
     const unauthenticatedRoutes = [
         {

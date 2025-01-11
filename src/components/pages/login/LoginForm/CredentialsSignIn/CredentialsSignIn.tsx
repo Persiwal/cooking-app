@@ -36,7 +36,7 @@ const CredentialsSignIn = () => {
 
   const loginMutation = useLogin();
 
-  const onSubmit = (data: { username: string, password: string }) => {
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
     loginMutation.mutate(data);
   };
 

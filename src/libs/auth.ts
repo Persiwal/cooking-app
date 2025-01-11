@@ -41,7 +41,10 @@ export const authOptions: AuthOptions = {
           throw new Error('Invalid username or password');
         }
 
-        return user;
+        return {
+          ...user,
+          id: user.id.toString(),
+        };
       },
     }),
   ],

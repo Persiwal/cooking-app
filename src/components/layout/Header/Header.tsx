@@ -18,7 +18,7 @@ const Header = () => {
         {/* mobile */}
         <Flex align="center" justify="between" className={styles.mobile}>
           <Logo />
-          <MobileMenu session={session.data} />
+          {session.data && <MobileMenu session={session.data} />}
         </Flex>
         {/* mobile */}
 
@@ -26,7 +26,7 @@ const Header = () => {
         <Flex align="center" justify="between" className={styles.desktop}>
           <Logo />
           <MainNav />
-          <HeaderActions session={session.data} />
+          {session.data && <HeaderActions session={session.data} />}
         </Flex>
         {/* desktop */}
 

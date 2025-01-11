@@ -20,14 +20,14 @@ type Props = {
 const AccountMenu: React.FC<Props> = ({ session }) => {
   const t = useTranslationsObject('layout.header.headerActions');
   const { user } = session;
-  const usernameFirstLetter = user.name.charAt(0).toUpperCase();
+  const usernameFirstLetter = user?.name?.charAt(0).toUpperCase() || '';
 
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <Button className={styles.avatarButton} aria-label="Customise options">
           <Avatar
-            src={user.image}
+            src={user?.image ?? undefined}
             alt="your account"
             fallback={usernameFirstLetter}
           />
@@ -42,17 +42,17 @@ const AccountMenu: React.FC<Props> = ({ session }) => {
           <div>
             <Flex align="center" style={{ gap: '20px' }}>
               <Avatar
-                src={user.image}
+                src={user?.image ?? undefined}
                 alt="your account"
                 fallback={usernameFirstLetter}
                 size="large"
               />
               <Flex justify="center" direction="column" align="center">
                 <Text style={{ fontSize: '1.25rem' }}>
-                  <strong>{user.name}</strong>
+                  <strong>{user?.name}</strong>
                 </Text>
                 <Text style={{ fontSize: '0.8rem' }} color="gray">
-                  {user.email}
+                  {user?.email}
                 </Text>
               </Flex>
             </Flex>

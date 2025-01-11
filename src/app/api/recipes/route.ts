@@ -1,7 +1,6 @@
 import prisma from '@/libs/prismadb';
-import { NextApiResponse } from 'next';
 
-export async function GET(req: Request, res: NextApiResponse) {
+export async function GET() {
   try {
     const recipes = await prisma.recipe.findMany({
       include: {
