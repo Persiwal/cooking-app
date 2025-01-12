@@ -1,11 +1,11 @@
 import prisma from '@/libs/prismadb';
 import bcrypt from 'bcrypt';
-import { NextResponse } from "next/server";
 
 const DEFAULT_PASSWORD_SALT = 10;
 
 export async function POST(request: Request) {
   try {
+    console.log(request.body);
     const body = await request.json();
     const { name, email, password } = body;
 
@@ -15,28 +15,28 @@ export async function POST(request: Request) {
       data: { name, email, hashedPassword },
     });
 
-    return NextResponse.json({
+    return Response.json({
       data: user,
       message: 'Successfully created account.',
     });
   } catch (error: any) {
-    if (error.code === 'P2002' && error.meta.target === 'User_name_key') {
-      console.error(error);
-      return NextResponse.json(
+    if (error.code === 'P2002' && error.meta.target.includes('name')) {
+      return Response.json(
         { error: 'User with that username already exists.' },
-        { status: 400 }
+        { status: 409 }
       );
     }
 
-    if (error.code === 'P2002' && error.meta.target === 'User_email_key') {
-      console.error(error);
-      return NextResponse.json(
+    if (error.code === 'P2002' && error.meta.target.includes('email')) {
+      return Response.json(
         { error: 'User with that email already exists.' },
-        { status: 400 }
+        { status: 409 }
       );
     }
 
-    console.error(error);
-    throw error;
+    return Response.json({
+      error: 'An error occurred while creating the account.',
+      status: 500,
+    });
   }
 }
