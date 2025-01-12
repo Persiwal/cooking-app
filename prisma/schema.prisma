@@ -51,6 +51,7 @@ model User {
 
 model Recipe {
   id               Int                @id @default(autoincrement())
+  image            String?            @default("")
   title            String
   description      String?
   userId           Int

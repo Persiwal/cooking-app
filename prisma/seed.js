@@ -40,6 +40,7 @@ async function main() {
   const recipe = await prisma.recipe.create({
     data: {
       title: 'Pancakes',
+      image: '',
       description: 'Delicious homemade pancakes',
       cuisine: 'American',
       difficulty: Difficulty.EASY,
