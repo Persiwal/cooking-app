@@ -1,28 +1,28 @@
 'use client';
-import { useLogin } from '@/hooks/query/useLogin';
 import useTranslationsObject from '@/hooks/useTranslationsObject';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Form from '@radix-ui/react-form';
 import { PersonIcon } from '@radix-ui/react-icons';
-import { Button, Container, Flex, Text, TextField } from '@radix-ui/themes';
+import { Button, Container, Flex, TextField } from '@radix-ui/themes';
+import { signIn } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import * as z from 'zod';
-import LoadingSpinner from '../../../../ui/LoadingSpinner/LoadingSpinner';
 import PasswordInput from '../../../../ui/PasswordInput/PasswordInput';
 import styles from './CredentialsSignIn.module.scss';
 
 
 
 const CredentialsSignIn = () => {
-  const t = useTranslationsObject('pages.login');
+  const T = useTranslationsObject('pages.login');
 
   const formSchema = z.object({
     username: z
       .string()
-      .min(1, { message: t.USERNAME_REQUIRED_ERROR }),
+      .min(1, { message: T.USERNAME_REQUIRED_ERROR }),
     password: z
       .string()
-      .min(1, { message: t.PASSWORD_REQUIRED_ERROR }),
+      .min(1, { message: T.PASSWORD_REQUIRED_ERROR }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,16 +34,24 @@ const CredentialsSignIn = () => {
     },
   });
 
-  const loginMutation = useLogin();
+  // const loginMutation = useLogin();
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    loginMutation.mutate(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const res = await signIn('credentials', {
+      redirect: false,
+      username: data.username,
+      password: data.password,
+    });
+
+    if (res?.status === 200) {
+      redirect('/');
+    }
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)}>
+    <Form.Root onSubmit={form.handleSubmit(onSubmit)}>
       <Container className={styles.serverErrorContainer}>
-        <Text>{loginMutation.isError && loginMutation.error.message}</Text>
+        {/* <Text>{loginMutation.isError && loginMutation.error.message}</Text> */}
       </Container>
 
       <Flex direction="column" gap="5">
@@ -57,7 +65,7 @@ const CredentialsSignIn = () => {
               className={`${styles.field} ${fieldState.error && styles.error}`}
             >
               <Form.Label className={styles.label}>
-                {t.USERNAME_LABEL}
+                {T.USERNAME_LABEL}
               </Form.Label>
               <TextField.Root>
                 <TextField.Slot>
@@ -68,7 +76,7 @@ const CredentialsSignIn = () => {
                   size="3"
                   className={styles.input}
                   onChange={field.onChange}
-                  placeholder={t.USERNAME_PLACEHOLDER}
+                  placeholder={T.USERNAME_PLACEHOLDER}
                 />
               </TextField.Root>
               {fieldState.error && (
@@ -90,7 +98,7 @@ const CredentialsSignIn = () => {
               className={`${styles.field} ${fieldState.error && styles.error}`}
             >
               <Form.Label className={styles.label}>
-                {t.PASSWORD_LABEL}
+                {T.PASSWORD_LABEL}
               </Form.Label>
               <PasswordInput onChange={field.onChange} value={field.value} />
               {fieldState.error && (
@@ -106,21 +114,20 @@ const CredentialsSignIn = () => {
           <Button
             size="3"
             className={styles.loginButton}
-            disabled={loginMutation.isLoading}
+            // disabled={loginMutation.isPending}
             type="submit"
           >
-            {loginMutation.isLoading ? (
+            {/* {loginMutation.isPending ? (
               <>
                 <LoadingSpinner />
-                <span>{t.LOGIN}</span>
               </>
-            ) : (
-              t.LOGIN_PAGE
-            )}
+            ) : ( */}
+            {T.LOGIN}
+            {/* )} */}
           </Button>
         </Form.Submit>
       </Flex>
-    </form>
+    </Form.Root>
   );
 };
 

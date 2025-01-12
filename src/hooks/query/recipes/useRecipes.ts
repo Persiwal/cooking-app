@@ -1,11 +1,10 @@
 import { fetchRecipes } from '@/helpers/api-helpers/recipes';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const useRecipes = () => {
-  return useQuery('recipes', fetchRecipes, {
-    onError: (error) => {
-      console.error('Error fetching recipes:', error);
-    },
+  return useQuery({
+    queryKey: ['recipes'],
+    queryFn: fetchRecipes,
   });
 };
 

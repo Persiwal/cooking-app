@@ -1,14 +1,13 @@
-import Translations from '@/types/messages/pages/login';
+import useTranslationsObject from '@/hooks/useTranslationsObject';
 import { ROUTES } from '@/types/routes';
 import { ArrowRightIcon } from '@radix-ui/react-icons';
 import { Box, Container, Flex, Heading, Text } from '@radix-ui/themes';
-import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import CredentialsSingIn from './CredentialsSignIn/CredentialsSignIn';
 import styles from './LoginForm.module.scss';
 
 const LoginForm = () => {
-  const t = useTranslations();
+  const T = useTranslationsObject('pages.login');
 
   return (
     <Box
@@ -16,17 +15,17 @@ const LoginForm = () => {
       width={{ initial: '100%', xs: 'min-content' }}
     >
       <Box className={styles.heading}>
-        <Heading>{t(Translations.LOGIN)}</Heading>
+        <Heading>{T.LOGIN}</Heading>
       </Box>
 
       <CredentialsSingIn />
 
       <Container mt="5">
         <Flex gap="2" justify="center">
-          <Text>{t(Translations.DONT_HAVE_ACCOUNT)}</Text>
+          <Text>{T.DONT_HAVE_ACCOUNT}</Text>
           <Link href={ROUTES.REGISTER_PAGE}>
             <Flex align="center" gap="1" justify="center">
-              {t(Translations.REGISTER_NOW)}
+              {T.REGISTER_NOW}
               <ArrowRightIcon />
             </Flex>
           </Link>

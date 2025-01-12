@@ -20,11 +20,10 @@ import {
   Text,
   TextField,
 } from '@radix-ui/themes';
+import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import * as z from 'zod';
 import styles from './RegisterForm.module.scss';
@@ -78,24 +77,21 @@ const RegisterForm = () => {
       email: string;
       password: string;
     }) => register(requestBody),
-    onSuccess: (res) => { },
+    onSuccess: (res) => {
+      toast.success(t.REGISTER_SUCCESS);
+      redirect(ROUTES.LOGIN_PAGE);
+    },
     onError: (error: Error) => {
       console.error(error.message);
     },
   });
 
-  useEffect(() => {
-    if (registerMutation.isSuccess) {
-      toast.success(t.REGISTER_SUCCESS);
-      redirect(ROUTES.LOGIN_PAGE);
-    }
-  }, [registerMutation.isSuccess]);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { email, username, password } = values;
     const requestBody = { email, name: username, password };
 
-    const registeredUser = await registerMutation.mutateAsync(requestBody);
+    await registerMutation.mutateAsync(requestBody);
   };
 
   return (
@@ -233,10 +229,10 @@ const RegisterForm = () => {
             <Button
               size="3"
               className={styles.registerButton}
-              disabled={registerMutation.isLoading}
+              disabled={registerMutation.isPending}
               type="submit"
             >
-              {registerMutation.isLoading ? (
+              {registerMutation.isPending ? (
                 <>
                   <LoadingSpinner />
                   <span>{t.REGISTERING}</span>

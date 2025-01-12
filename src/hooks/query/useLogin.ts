@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query';
+import { useMutation } from '@tanstack/react-query';
 import { signIn, SignInResponse } from 'next-auth/react';
 import { toast } from 'react-toastify';
 
@@ -6,10 +6,9 @@ interface LoginRequest {
   username: string;
   password: string;
 }
-
-export const useLogin = () => {
-  return useMutation<SignInResponse, Error, LoginRequest>(
-    async (requestBody) => {
+const useLogin = () => {
+  return useMutation<SignInResponse, Error, LoginRequest>({
+    mutationFn: async (requestBody: LoginRequest) => {
       const res = await signIn('credentials', {
         redirect: false,
         username: requestBody.username,
@@ -23,13 +22,13 @@ export const useLogin = () => {
       }
       return res;
     },
-    {
-      onSuccess: () => {
-        toast.success('Login successful');
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    }
-  );
+    onSuccess: () => {
+      toast.success('Login successful');
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
 };
+
+export default useLogin;
