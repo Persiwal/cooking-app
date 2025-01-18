@@ -1,4 +1,5 @@
 'use client';
+import { Select, SelectItem } from '@/components/ui/Select/Select';
 import { useIngredients } from '@/hooks/query/ingredients/useIngredients';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Form from '@radix-ui/react-form';
@@ -206,17 +207,16 @@ const RecipeForm = () => {
                                 className={`${styles.field} ${fieldState.error && styles.error}`}
                             >
                                 <Form.Label className={styles.label}>Difficulty</Form.Label>
-                                <TextField.Root>
-                                    <select
-                                        value={field.value}
-                                        className={styles.input}
-                                        onChange={field.onChange}
-                                    >
-                                        <option value="EASY">Easy</option>
-                                        <option value="MEDIUM">Medium</option>
-                                        <option value="HARD">Hard</option>
-                                    </select>
-                                </TextField.Root>
+                                <Select
+                                    placeholder='Select a difficulty'
+                                    label='Difficulty'
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                >
+                                    <SelectItem value="EASY">Easy</SelectItem>
+                                    <SelectItem value="MEDIUM">Medium</SelectItem>
+                                    <SelectItem value="HARD">Hard</SelectItem>
+                                </Select>
                                 {fieldState.error && (
                                     <Form.Message className={styles.errorMsg}>
                                         {fieldState.error.message}
@@ -247,28 +247,29 @@ const RecipeForm = () => {
                                             name={`ingredients.${index}.name`}
                                             className={`${styles.field} ${fieldState.error && styles.error}`}
                                         >
-                                            <Form.Label className={styles.label}>Name</Form.Label>
+                                            <Form.Label className={styles.label}>Ingredient name</Form.Label>
                                             <TextField.Root>
-                                                <select
+                                                <Select
+                                                    label='Ingredient name'
+                                                    placeholder='Select an ingredient'
                                                     value={field.value}
-                                                    className={styles.input}
-                                                    onChange={field.onChange}
+                                                    onChange={value => field.onChange(value)}
                                                 >
                                                     {isLoading ? (
-                                                        <option>Loading...</option>
+                                                        <SelectItem value='Loading...'>Loading...</SelectItem>
                                                     ) : error ? (
-                                                        <option>Error loading ingredients</option>
+                                                        <SelectItem value='Error'>Error loading ingredients</SelectItem>
                                                     ) : (
                                                         ingredients.map((ingredient: any) => (
-                                                            <option
+                                                            <SelectItem
                                                                 key={ingredient.id}
                                                                 value={ingredient.name}
                                                             >
                                                                 {ingredient.name}
-                                                            </option>
+                                                            </SelectItem>
                                                         ))
                                                     )}
-                                                </select>
+                                                </Select>
                                             </TextField.Root>
                                             {fieldState.error && (
                                                 <Form.Message className={styles.errorMsg}>
@@ -292,7 +293,7 @@ const RecipeForm = () => {
                                                     value={field.value}
                                                     size="3"
                                                     className={styles.input}
-                                                    onChange={field.onChange}
+                                                    onChange={(e) => field.onChange(Number(e.target.value))}
                                                     placeholder={'Quantity'}
                                                     type="number"
                                                 />

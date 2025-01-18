@@ -15,7 +15,7 @@ export const formSchema = z.object({
     z.object({
       name: z.string().min(1, { message: 'Ingredient name is required' }),
       quantity: z.number().min(1, { message: 'Quantity must be at least 1' }),
-      unit: z.string().min(1, { message: 'Unit is required' }),
+      unit: z.string(),
     })
   ),
   steps: z.array(
