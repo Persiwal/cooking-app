@@ -14,8 +14,8 @@ import Avatar from '../../../../ui/Avatar/Avatar';
 import styles from './AccountMenu.module.scss';
 
 type Props = {
-  session: Session
-}
+  session: Session;
+};
 
 const AccountMenu: React.FC<Props> = ({ session }) => {
   const t = useTranslationsObject('layout.header.headerActions');

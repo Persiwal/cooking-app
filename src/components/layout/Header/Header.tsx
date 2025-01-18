@@ -14,7 +14,6 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <Container size="4" px="4" py="2">
-
         {/* mobile */}
         <Flex align="center" justify="between" className={styles.mobile}>
           <Logo />
@@ -29,7 +28,6 @@ const Header = () => {
           {session.data && <HeaderActions session={session.data} />}
         </Flex>
         {/* desktop */}
-
       </Container>
     </header>
   );

@@ -11,18 +11,12 @@ import * as z from 'zod';
 import PasswordInput from '../../../../ui/PasswordInput/PasswordInput';
 import styles from './CredentialsSignIn.module.scss';
 
-
-
 const CredentialsSignIn = () => {
   const T = useTranslationsObject('pages.login');
 
   const formSchema = z.object({
-    username: z
-      .string()
-      .min(1, { message: T.USERNAME_REQUIRED_ERROR }),
-    password: z
-      .string()
-      .min(1, { message: T.PASSWORD_REQUIRED_ERROR }),
+    username: z.string().min(1, { message: T.USERNAME_REQUIRED_ERROR }),
+    password: z.string().min(1, { message: T.PASSWORD_REQUIRED_ERROR }),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({

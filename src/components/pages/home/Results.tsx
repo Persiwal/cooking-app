@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import useRecipes from '@/hooks/query/recipes/useRecipes';
 import useTranslationsObject from '@/hooks/useTranslationsObject';

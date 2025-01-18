@@ -29,7 +29,7 @@ import * as z from 'zod';
 import styles from './RegisterForm.module.scss';
 
 const RegisterForm = () => {
-  const t = useTranslationsObject("pages.register");
+  const t = useTranslationsObject('pages.register');
 
   const formSchema = z
     .object({
@@ -86,7 +86,6 @@ const RegisterForm = () => {
     },
   });
 
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { email, username, password } = values;
     const requestBody = { email, name: username, password };
@@ -118,8 +117,9 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="username"
-                className={`${styles.field} ${fieldState.error && styles.error
-                  }`}
+                className={`${styles.field} ${
+                  fieldState.error && styles.error
+                }`}
               >
                 <Form.Label className={styles.label}>
                   {t.USERNAME_LABEL}
@@ -152,8 +152,9 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="email"
-                className={`${styles.field} ${fieldState.error && styles.error
-                  }`}
+                className={`${styles.field} ${
+                  fieldState.error && styles.error
+                }`}
               >
                 <Form.Label className={styles.label}>
                   {t.EMAIL_LABEL}
@@ -186,8 +187,9 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="password"
-                className={`${styles.field} ${fieldState.error && styles.error
-                  }`}
+                className={`${styles.field} ${
+                  fieldState.error && styles.error
+                }`}
               >
                 <Form.Label className={styles.label}>
                   {t.PASSWORD_LABEL}
@@ -209,8 +211,9 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="confirmPassword"
-                className={`${styles.field} ${fieldState.error && styles.error
-                  }`}
+                className={`${styles.field} ${
+                  fieldState.error && styles.error
+                }`}
               >
                 <Form.Label className={styles.label}>
                   {t.CONFIRM_PASSWORD_LABEL}
