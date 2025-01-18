@@ -2,7 +2,7 @@
 import { useIngredients } from '@/hooks/query/ingredients/useIngredients';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Form from '@radix-ui/react-form';
-import { Button, Container, Flex, Heading, TextField } from '@radix-ui/themes';
+import { Button, Container, Flex, Heading, TextArea, TextField } from '@radix-ui/themes';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { formSchema } from './formSchema';
@@ -94,15 +94,13 @@ const RecipeForm = () => {
                                 className={`${styles.field} ${fieldState.error && styles.error}`}
                             >
                                 <Form.Label className={styles.label}>Description</Form.Label>
-                                <TextField.Root>
-                                    <TextField.Input
-                                        value={field.value}
-                                        size="3"
-                                        className={styles.input}
-                                        onChange={field.onChange}
-                                        placeholder={'Description'}
-                                    />
-                                </TextField.Root>
+                                <TextArea
+                                    value={field.value}
+                                    size="3"
+                                    className={styles.input}
+                                    onChange={field.onChange}
+                                    placeholder={'Description'}
+                                />
                                 {fieldState.error && (
                                     <Form.Message className={styles.errorMsg}>
                                         {fieldState.error.message}
