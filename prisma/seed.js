@@ -4,27 +4,27 @@ const prisma = new PrismaClient();
 
 async function main() {
   const flour = await prisma.ingredient.upsert({
-    where: { name: 'Flour' },
+    where: { name: 'Flour', unit: 'gram' },
     update: {},
-    create: { name: 'Flour' },
+    create: { name: 'Flour', unit: 'gram' },
   });
 
   const sugar = await prisma.ingredient.upsert({
-    where: { name: 'Sugar' },
+    where: { name: 'Sugar', unit: 'gram' },
     update: {},
-    create: { name: 'Sugar' },
+    create: { name: 'Sugar', unit: 'gram' },
   });
 
   const egg = await prisma.ingredient.upsert({
-    where: { name: 'Egg' },
+    where: { name: 'Egg', unit: 'gram' },
     update: {},
-    create: { name: 'Egg' },
+    create: { name: 'Egg', unit: 'gram' },
   });
 
   const butter = await prisma.ingredient.upsert({
-    where: { name: 'Butter' },
+    where: { name: 'Butter', unit: 'gram' },
     update: {},
-    create: { name: 'Butter' },
+    create: { name: 'Butter', unit: 'gram' },
   });
 
   const user = await prisma.user.upsert({
@@ -52,22 +52,18 @@ async function main() {
           {
             ingredient: { connect: { id: flour.id } },
             quantity: 200,
-            unit: 'grams',
           },
           {
             ingredient: { connect: { id: sugar.id } },
             quantity: 50,
-            unit: 'grams',
           },
           {
             ingredient: { connect: { id: egg.id } },
             quantity: 2,
-            unit: 'pieces',
           },
           {
             ingredient: { connect: { id: butter.id } },
             quantity: 30,
-            unit: 'grams',
           },
         ],
       },

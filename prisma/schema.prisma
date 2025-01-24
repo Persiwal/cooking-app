@@ -81,6 +81,7 @@ model RecipeStep {
 model Ingredient {
   id      Int                @id @default(autoincrement())
   name    String             @unique
+  unit    String
   recipes RecipeIngredient[]
 }
 
@@ -89,7 +90,6 @@ model RecipeIngredient {
   recipeId     Int
   ingredientId Int
   quantity     Float
-  unit         String
   recipe       Recipe     @relation(fields: [recipeId], references: [id])
   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
 }
