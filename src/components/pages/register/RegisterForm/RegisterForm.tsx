@@ -1,5 +1,4 @@
 'use client';
-import LoadingSpinner from '@/components/ui/LoadingSpinner/LoadingSpinner';
 import PasswordInput from '@/components/ui/PasswordInput/PasswordInput';
 import register from '@/helpers/api-helpers/auth/register';
 import useTranslationsObject from '@/hooks/useTranslationsObject';
@@ -20,11 +19,8 @@ import {
   Text,
   TextField,
 } from '@radix-ui/themes';
-import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import * as z from 'zod';
 import styles from './RegisterForm.module.scss';
 
@@ -71,26 +67,27 @@ const RegisterForm = () => {
     },
   });
 
-  const registerMutation = useMutation({
-    mutationFn: (requestBody: {
-      name: string;
-      email: string;
-      password: string;
-    }) => register(requestBody),
-    onSuccess: (res) => {
-      toast.success(t.REGISTER_SUCCESS);
-      redirect(ROUTES.LOGIN_PAGE);
-    },
-    onError: (error: Error) => {
-      console.error(error.message);
-    },
-  });
+  // const registerMutation = useMutation({
+  //   mutationFn: (requestBody: {
+  //     name: string;
+  //     email: string;
+  //     password: string;
+  //   }) => register(requestBody),
+  //   onSuccess: (res) => {
+  //     toast.success(t.REGISTER_SUCCESS);
+  //     redirect(ROUTES.LOGIN_PAGE);
+  //   },
+  //   onError: (error: Error) => {
+  //     console.error(error.message);
+  //   },
+  // });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { email, username, password } = values;
     const requestBody = { email, name: username, password };
 
-    await registerMutation.mutateAsync(requestBody);
+    //await registerMutation.mutateAsync(requestBody);
+    await register(requestBody);
   };
 
   return (
@@ -105,7 +102,7 @@ const RegisterForm = () => {
       <Form.Root onSubmit={form.handleSubmit(onSubmit)}>
         <Container className={styles.serverErrorContainer}>
           <Text>
-            {registerMutation.isError && registerMutation.error.message}
+            {/* {registerMutation.isError && registerMutation.error.message} */}
           </Text>
         </Container>
 
@@ -117,9 +114,8 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="username"
-                className={`${styles.field} ${
-                  fieldState.error && styles.error
-                }`}
+                className={`${styles.field} ${fieldState.error && styles.error
+                  }`}
               >
                 <Form.Label className={styles.label}>
                   {t.USERNAME_LABEL}
@@ -152,9 +148,8 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="email"
-                className={`${styles.field} ${
-                  fieldState.error && styles.error
-                }`}
+                className={`${styles.field} ${fieldState.error && styles.error
+                  }`}
               >
                 <Form.Label className={styles.label}>
                   {t.EMAIL_LABEL}
@@ -187,9 +182,8 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="password"
-                className={`${styles.field} ${
-                  fieldState.error && styles.error
-                }`}
+                className={`${styles.field} ${fieldState.error && styles.error
+                  }`}
               >
                 <Form.Label className={styles.label}>
                   {t.PASSWORD_LABEL}
@@ -211,9 +205,8 @@ const RegisterForm = () => {
             render={({ field, fieldState }) => (
               <Form.Field
                 name="confirmPassword"
-                className={`${styles.field} ${
-                  fieldState.error && styles.error
-                }`}
+                className={`${styles.field} ${fieldState.error && styles.error
+                  }`}
               >
                 <Form.Label className={styles.label}>
                   {t.CONFIRM_PASSWORD_LABEL}
@@ -232,17 +225,18 @@ const RegisterForm = () => {
             <Button
               size="3"
               className={styles.registerButton}
-              disabled={registerMutation.isPending}
+              //disabled={registerMutation.isPending}
               type="submit"
             >
-              {registerMutation.isPending ? (
+              {/* {registerMutation.isPending ? (
                 <>
                   <LoadingSpinner />
                   <span>{t.REGISTERING}</span>
                 </>
               ) : (
                 t.REGISTER_BUTTON
-              )}
+              )} */}
+              register
             </Button>
           </Form.Submit>
         </Flex>

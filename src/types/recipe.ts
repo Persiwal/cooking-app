@@ -1,7 +1,7 @@
 enum RecipeDifficulty {
-  EASY,
-  MEDIUM,
-  HARD,
+  EASY = 'EASY',
+  MEDIUM = 'MEDIUM',
+  HARD = 'HARD',
 }
 
 type Ingredient = {
@@ -39,3 +39,30 @@ type Recipe = {
   steps: RecipeStep[];
   ingredients: RecipeIngredient[];
 };
+
+type NewRecipe = {
+  image?: string;
+  title: string;
+  description?: string;
+  userEmail: string;
+  cuisine?: string;
+  difficulty: RecipeDifficulty;
+  prepareTime: number;
+  numberOfPortions: number;
+  steps: NewRecipeStep[];
+  ingredients: NewRecipeIngredient[];
+};
+
+type NewRecipeStep = {
+  order: number;
+  content: string;
+};
+
+type NewRecipeIngredient = {
+  //recipeId: number;
+  ingredientId: number;
+  quantity: number;
+};
+
+export { RecipeDifficulty };
+export type { Ingredient, NewRecipe, Recipe, RecipeIngredient, RecipeStep };

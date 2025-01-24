@@ -1,10 +1,11 @@
+import { RecipeDifficulty } from '@/types/recipe';
 import * as z from 'zod';
 
 export const formSchema = z.object({
   title: z.string().min(1, { message: 'Title is required' }),
   description: z.string().optional(),
   cuisine: z.string().optional(),
-  difficulty: z.enum(['EASY', 'MEDIUM', 'HARD']),
+  difficulty: z.nativeEnum(RecipeDifficulty),
   prepareTime: z
     .number()
     .min(1, { message: 'Prepare time must be at least 1 second' }),

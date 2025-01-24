@@ -1,15 +1,34 @@
 'use client';
 import { Select, SelectItem } from '@/components/ui/Select/Select';
+import { createRecipe } from '@/helpers/api-helpers/recipes';
 import { useIngredients } from '@/hooks/query/ingredients/useIngredients';
+import { Ingredient, RecipeDifficulty } from '@/types/recipe';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Form from '@radix-ui/react-form';
 import { Button, Container, Flex, Heading, TextArea, TextField } from '@radix-ui/themes';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { formSchema } from './formSchema';
 import styles from './RecipeForm.module.scss';
 
 const RecipeForm = () => {
+    const session = useSession();
+    const [image, setImage] = useState<[File, string] | null>(null)
+
+    useEffect(() => {
+        console.log(image);
+    }, [image])
+
+    //@ts-ignore
+    const onDrop = useCallback(acceptedFiles => {
+        setImage([acceptedFiles[0], URL.createObjectURL(acceptedFiles[0])])
+    }, [])
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
     const { control, handleSubmit, register, watch } = useForm<
         z.infer<typeof formSchema>
     >({
@@ -18,7 +37,7 @@ const RecipeForm = () => {
             title: '',
             description: '',
             cuisine: '',
-            difficulty: 'EASY',
+            difficulty: RecipeDifficulty.EASY,
             prepareTime: 3600,
             numberOfPortions: 1,
             ingredients: [{ name: '', quantity: 1, unit: '' }],
@@ -48,20 +67,57 @@ const RecipeForm = () => {
 
     const { data: ingredients, isLoading, error } = useIngredients();
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
+
+    const uploadImage = async (file: File) => {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        const res = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        console.log(res);
+
+        const data = await res.json();
         console.log(data);
-        // Handle form submission
+        return data.url;
     };
 
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        let imageUrl = '';
+        if (image) {
+            imageUrl = await uploadImage(image[0]);
+            console.log(imageUrl);
+        }
+
+        const recipeIngredients = data.ingredients.map((ingredient) => {
+            const ingredientFromDB = ingredients.find((i: Ingredient) => i.name === ingredient.name) || '';
+
+            return (
+                {
+                    ingredientId: ingredientFromDB.id,
+                    quantity: ingredient.quantity,
+                }
+            )
+        });
+
+
+        if (session.data?.user?.email) {
+            await createRecipe({ userEmail: session.data.user.email, ...data, image: imageUrl, ingredients: recipeIngredients, });
+        } else {
+            console.error('User email is not available');
+        }
+    }
+
     return (
-        <Container>
-            <Heading>Create New Recipe</Heading>
-            <Form.Root onSubmit={handleSubmit(onSubmit)}>
+        <Container className={styles.container}>
+            <Heading className={styles.heading}>Create New Recipe</Heading>
+            <Form.Root onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <Flex direction="column" gap="4">
                     <Controller
                         name="title"
                         control={control}
-                        rules={{ required: true }}
                         render={({ field, fieldState }) => (
                             <Form.Field
                                 name="title"
@@ -74,7 +130,7 @@ const RecipeForm = () => {
                                         size="3"
                                         className={styles.input}
                                         onChange={field.onChange}
-                                        placeholder={'Title'}
+                                        placeholder="Title"
                                     />
                                 </TextField.Root>
                                 {fieldState.error && (
@@ -100,7 +156,7 @@ const RecipeForm = () => {
                                     size="3"
                                     className={styles.input}
                                     onChange={field.onChange}
-                                    placeholder={'Description'}
+                                    placeholder="Description"
                                 />
                                 {fieldState.error && (
                                     <Form.Message className={styles.errorMsg}>
@@ -110,6 +166,35 @@ const RecipeForm = () => {
                             </Form.Field>
                         )}
                     />
+
+                    <label className={styles.label}>Image</label>
+                    <section style={{
+                        flex: 1,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        padding: '20px',
+                        borderWidth: 4,
+                        borderRadius: 4,
+                        borderColor: '#FFFFFF',
+                        borderStyle: 'dashed',
+                        backgroundColor: '#fafafa',
+                        color: '#bdbdbd',
+                        outline: 'none',
+                        transition: 'border .24s ease-in-out'
+                    }}>
+                        <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            <p>Drag &apos;n&apos; drop some files here, or click to select files</p>
+                        </div>
+                    </section>
+
+                    {image && (
+                        <div className={styles.imagePreview}>
+                            <Image src={image[1]} alt='image preview' width={400} height={200} />
+                        </div>
+                    )}
+
 
                     <Controller
                         name="cuisine"
@@ -126,7 +211,7 @@ const RecipeForm = () => {
                                         size="3"
                                         className={styles.input}
                                         onChange={field.onChange}
-                                        placeholder={'Cuisine'}
+                                        placeholder="Cuisine"
                                     />
                                 </TextField.Root>
                                 {fieldState.error && (
@@ -146,16 +231,14 @@ const RecipeForm = () => {
                                 name="prepareTime"
                                 className={`${styles.field} ${fieldState.error && styles.error}`}
                             >
-                                <Form.Label className={styles.label}>
-                                    Prepare Time (seconds)
-                                </Form.Label>
+                                <Form.Label className={styles.label}>Prepare Time (seconds)</Form.Label>
                                 <TextField.Root>
                                     <TextField.Input
                                         value={field.value}
                                         size="3"
                                         className={styles.input}
-                                        onChange={field.onChange}
-                                        placeholder={'Prepare Time (seconds)'}
+                                        onChange={(e) => field.onChange(Number(e.target.value))}
+                                        placeholder="Prepare Time (seconds)"
                                         type="number"
                                     />
                                 </TextField.Root>
@@ -176,16 +259,14 @@ const RecipeForm = () => {
                                 name="numberOfPortions"
                                 className={`${styles.field} ${fieldState.error && styles.error}`}
                             >
-                                <Form.Label className={styles.label}>
-                                    Number of Portions
-                                </Form.Label>
+                                <Form.Label className={styles.label}>Number of Portions</Form.Label>
                                 <TextField.Root>
                                     <TextField.Input
                                         value={field.value}
                                         size="3"
                                         className={styles.input}
-                                        onChange={field.onChange}
-                                        placeholder={'Number of Portions'}
+                                        onChange={(e) => field.onChange(Number(e.target.value))}
+                                        placeholder="Number of Portions"
                                         type="number"
                                     />
                                 </TextField.Root>
@@ -204,19 +285,21 @@ const RecipeForm = () => {
                         render={({ field, fieldState }) => (
                             <Form.Field
                                 name="difficulty"
-                                className={`${styles.field} ${fieldState.error && styles.error}`}
+                                className={`${fieldState.error && styles.error}`}
                             >
                                 <Form.Label className={styles.label}>Difficulty</Form.Label>
-                                <Select
-                                    placeholder='Select a difficulty'
-                                    label='Difficulty'
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                >
-                                    <SelectItem value="EASY">Easy</SelectItem>
-                                    <SelectItem value="MEDIUM">Medium</SelectItem>
-                                    <SelectItem value="HARD">Hard</SelectItem>
-                                </Select>
+                                <TextField.Root>
+                                    <Select
+                                        placeholder='Select an difficulty'
+                                        label='Difficulty'
+                                        value={field.value}
+                                        onChange={value => field.onChange(value)}
+                                    >
+                                        <SelectItem value={RecipeDifficulty.EASY}>Easy</SelectItem>
+                                        <SelectItem value={RecipeDifficulty.MEDIUM}>Medium</SelectItem>
+                                        <SelectItem value={RecipeDifficulty.HARD}>Hard</SelectItem>
+                                    </Select>
+                                </TextField.Root>
                                 {fieldState.error && (
                                     <Form.Message className={styles.errorMsg}>
                                         {fieldState.error.message}
@@ -226,19 +309,10 @@ const RecipeForm = () => {
                         )}
                     />
 
-                    <Heading>Ingredients</Heading>
+                    <Heading className={styles.subheading}>Ingredients</Heading>
                     {ingredientFields.map((field, index) => {
-                        let selectedIngredient = [];
-
-                        if (ingredients) {
-                            selectedIngredient = ingredients.find(
-                                (ingredient: any) =>
-                                    ingredient.name === watchIngredients?.[index]?.name
-                            );
-                        }
-
                         return (
-                            <Flex key={field.id} direction="row" gap="2">
+                            <Flex key={field.id} direction="row" gap="2" align="start" className={styles.ingredientRow}>
                                 <Controller
                                     name={`ingredients.${index}.name`}
                                     control={control}
@@ -247,24 +321,21 @@ const RecipeForm = () => {
                                             name={`ingredients.${index}.name`}
                                             className={`${styles.field} ${fieldState.error && styles.error}`}
                                         >
-                                            <Form.Label className={styles.label}>Ingredient name</Form.Label>
+                                            <Form.Label className={styles.label}>Name</Form.Label>
                                             <TextField.Root>
                                                 <Select
-                                                    label='Ingredient name'
                                                     placeholder='Select an ingredient'
+                                                    label='Ingredients'
                                                     value={field.value}
                                                     onChange={value => field.onChange(value)}
                                                 >
                                                     {isLoading ? (
                                                         <SelectItem value='Loading...'>Loading...</SelectItem>
                                                     ) : error ? (
-                                                        <SelectItem value='Error'>Error loading ingredients</SelectItem>
+                                                        <SelectItem value='error'>Error loading ingredients</SelectItem>
                                                     ) : (
                                                         ingredients.map((ingredient: any) => (
-                                                            <SelectItem
-                                                                key={ingredient.id}
-                                                                value={ingredient.name}
-                                                            >
+                                                            <SelectItem key={ingredient.id} value={ingredient.name}>
                                                                 {ingredient.name}
                                                             </SelectItem>
                                                         ))
@@ -294,7 +365,7 @@ const RecipeForm = () => {
                                                     size="3"
                                                     className={styles.input}
                                                     onChange={(e) => field.onChange(Number(e.target.value))}
-                                                    placeholder={'Quantity'}
+                                                    placeholder="Quantity"
                                                     type="number"
                                                 />
                                             </TextField.Root>
@@ -310,6 +381,9 @@ const RecipeForm = () => {
                                     name={`ingredients.${index}.unit`}
                                     control={control}
                                     render={({ field, fieldState }) => {
+                                        const selectedIngredient = ingredients?.find(
+                                            (ingredient: any) => ingredient.name === field.value
+                                        );
                                         return (
                                             <Form.Field
                                                 name={`ingredients.${index}.unit`}
@@ -318,9 +392,7 @@ const RecipeForm = () => {
                                                 <Form.Label className={styles.label}>Unit</Form.Label>
                                                 <TextField.Root>
                                                     <TextField.Input
-                                                        value={
-                                                            selectedIngredient ? selectedIngredient.unit : 'G'
-                                                        }
+                                                        value={selectedIngredient ? selectedIngredient.unit : 'gram'}
                                                         size="3"
                                                         className={styles.input}
                                                         readOnly
@@ -335,24 +407,19 @@ const RecipeForm = () => {
                                         );
                                     }}
                                 />
-                                <Button type="button" onClick={() => removeIngredient(index)}>
+                                <Button type="button" style={{ marginTop: '25px', height: '40px' }} onClick={() => removeIngredient(index)} className={styles.removeButton}>
                                     Remove
                                 </Button>
                             </Flex>
                         );
                     })}
-                    <Button
-                        type="button"
-                        onClick={() =>
-                            appendIngredient({ name: '', quantity: 1, unit: '' })
-                        }
-                    >
+                    <Button type="button" onClick={() => appendIngredient({ name: '', quantity: 1, unit: '' })} className={styles.addButton}>
                         Add Ingredient
                     </Button>
 
-                    <Heading>Steps</Heading>
+                    <Heading className={styles.subheading}>Steps</Heading>
                     {stepFields.map((field, index) => (
-                        <Flex key={field.id} direction="row" gap="2">
+                        <Flex key={field.id} direction="row" gap="2" align="start" className={styles.stepRow}>
                             <Controller
                                 name={`steps.${index}.order`}
                                 control={control}
@@ -367,10 +434,9 @@ const RecipeForm = () => {
                                                 value={field.value}
                                                 size="3"
                                                 className={styles.input}
-                                                onChange={field.onChange}
-                                                placeholder={'Order'}
+                                                onChange={(e) => field.onChange(Number(e.target.value))}
+                                                placeholder="Order"
                                                 type="number"
-                                                readOnly
                                             />
                                         </TextField.Root>
                                         {fieldState.error && (
@@ -396,7 +462,7 @@ const RecipeForm = () => {
                                                 size="3"
                                                 className={styles.input}
                                                 onChange={field.onChange}
-                                                placeholder={'Content'}
+                                                placeholder="Content"
                                             />
                                         </TextField.Root>
                                         {fieldState.error && (
@@ -407,24 +473,19 @@ const RecipeForm = () => {
                                     </Form.Field>
                                 )}
                             />
-                            <Button type="button" onClick={() => removeStep(index)}>
+                            <Button type="button" style={{ marginTop: '25px', height: '40px' }} onClick={() => removeStep(index)} className={styles.removeButton}>
                                 Remove
                             </Button>
                         </Flex>
                     ))}
-                    <Button
-                        type="button"
-                        onClick={() =>
-                            appendStep({ order: stepFields.length + 1, content: '' })
-                        }
-                    >
+                    <Button type="button" onClick={() => appendStep({ order: stepFields.length + 1, content: '' })} className={styles.addButton}>
                         Add Step
                     </Button>
 
-                    <Button type="submit">Create Recipe</Button>
+                    <Button type="submit" className={styles.submitButton}>Create Recipe</Button>
                 </Flex>
             </Form.Root>
-        </Container>
+        </Container >
     );
 };
 

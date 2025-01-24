@@ -11,4 +11,7 @@ module.exports = withNextIntl({
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import 'index.scss';`,
   },
+  images: {
+    domains: ['res.cloudinary.com'],
+  },
 });
