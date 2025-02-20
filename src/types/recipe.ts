@@ -1,3 +1,5 @@
+import { User } from 'next-auth';
+
 enum RecipeDifficulty {
   EASY = 'EASY',
   MEDIUM = 'MEDIUM',
@@ -12,6 +14,7 @@ type Ingredient = {
 type RecipeIngredient = {
   id: number;
   recipeId: number;
+  ingredient: Ingredient;
   ingredientId: number;
   quantity: number;
   unit: string;
@@ -25,13 +28,14 @@ type RecipeStep = {
 };
 
 type Recipe = {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
+  id: number;
+  createdAt: Date;
+  updatedAt: Date;
   image?: string;
   title: string;
   description?: string;
-  userId: string;
+  userId: number;
+  user: User;
   cuisine?: string;
   difficulty: RecipeDifficulty;
   prepareTime: number;

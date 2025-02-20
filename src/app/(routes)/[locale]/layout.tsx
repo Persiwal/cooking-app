@@ -3,6 +3,7 @@ import NotificationsProvider from '@/components/providers/notifications-provider
 import ReactQueryProvider from '@/components/providers/react-query-provider/ReactQueryProvider';
 import { routing } from '@/libs/i18n/routing';
 import '@/styles/globals.scss';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 import { getServerSession } from 'next-auth';

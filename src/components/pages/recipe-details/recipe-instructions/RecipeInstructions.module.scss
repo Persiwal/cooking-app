@@ -1,0 +1,207 @@
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 16px;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.instructionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.leftColumn,
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 16px;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.infoContainer,
+.instructionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+.stepNumber {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #10b981;
+  color: white;
+}
+
+.value,
+.stepNumber {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nutritionGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.nutritionItem {
+  background-color: #f9fafb;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.nutritionValue {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #10b981;
+}
+
+.nutritionLabel {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.recipeGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.leftColumn,
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 16px;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.infoContainer,
+.instructionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.instructionRow {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.label {
+  color: #4b5563;
+  font-size: 0.875rem;
+}
+
+.value,
+.stepNumber {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nutritionGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.nutritionItem {
+  background-color: #f9fafb;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.nutritionValue {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #10b981;
+}
+
+.nutritionLabel {
+  font-size: 0.875rem;
+  color: #4b5563;
+}
