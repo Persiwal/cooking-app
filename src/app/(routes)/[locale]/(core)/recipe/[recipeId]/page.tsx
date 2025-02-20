@@ -26,9 +26,8 @@ export default async function Page({
         return <div>Recipe not found</div>;
     }
 
-    const typedRecipe: Recipe = recipe;
 
     return <div>
-        <RecipeDetails recipe={typedRecipe} />
+        <RecipeDetails recipe={recipe as unknown as Recipe} />
     </div>
 }
